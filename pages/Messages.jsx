@@ -8,3 +8,5 @@ export default function Messages({ navigation }) {
     </Page>
   )
 }
+
+const styles = StyleSheet.create({})

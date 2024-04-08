@@ -9,3 +9,4 @@ export default function ServiceAdd({ navigation }) {
   )
 }
 
+const styles = StyleSheet.create({})

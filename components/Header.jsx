@@ -7,6 +7,7 @@ import HeaderMenuNewsSVG from './svg/HeaderMenuNewsSVG'
 import HeaderMenuServiceSVG from './svg/HeaderMenuServiceSVG'
 import HeaderMenuAboutUsSVG from './svg/HeaderMenuAboutUsSVG'
 import HeaderMenuVacancySVG from './svg/HeaderMenuVacancySVG'
+import gStyles from '../gStyles'
 
 export default function Header({ navigation }) {
   const [visibleMenu, setVisibleMenu] = useState(false)
@@ -22,15 +23,15 @@ export default function Header({ navigation }) {
 
   return (
     <View style={styles.header}>
-      {visibleMenu && <View style={styles.header__menuBackground}></View>}
+      {visibleMenu && <TouchableOpacity style={styles.header__menuBackground} onPress={changeVisibleMenu}></TouchableOpacity>}
       <View style={styles.header__header}>
-        <View style={styles.header__logo}>
+        <TouchableOpacity style={styles.header__logo} onPress={() => openPageFromMenu("news")}>
           <Image
             source={require('../assets/icon.png')}
             style={styles.header__logoImg}
           />
           <Text style={styles.header__logoText}>Роскадастр</Text>
-        </View>
+        </TouchableOpacity>
         <TouchableOpacity
           style={styles.header__menuBtn}
           onPress={changeVisibleMenu}
@@ -45,28 +46,28 @@ export default function Header({ navigation }) {
             onPress={() => openPageFromMenu('news')}
           >
             <HeaderMenuNewsSVG />
-            <Text>Новости</Text>
+            <Text style={gStyles.text}>Новости</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.header__menuItem}
             onPress={() => openPageFromMenu('serviceAdd')}
           >
             <HeaderMenuServiceSVG />
-            <Text>Услуги</Text>
+            <Text style={gStyles.text}>Услуги</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.header__menuItem}
             onPress={() => openPageFromMenu('aboutUs')}
           >
             <HeaderMenuAboutUsSVG />
-            <Text>О нас</Text>
+            <Text style={gStyles.text}>О нас</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.header__menuItem}
             onPress={() => openPageFromMenu('vacancy')}
           >
             <HeaderMenuVacancySVG />
-            <Text>Вакансии</Text>
+            <Text style={gStyles.text}>Вакансии</Text>
           </TouchableOpacity>
         </View>
       )}
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
     display: 'flex',
   },
   header__header: {
-    marginTop: Platform.OS === "android" ? 40 : 0,
+    marginTop: Platform.OS === 'android' ? 40 : 0,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
@@ -120,7 +121,7 @@ const styles = StyleSheet.create({
   },
   header__menu: {
     position: 'absolute',
-    marginTop: Platform.OS === "android" ? 83 : 43,
+    marginTop: Platform.OS === 'android' ? 83 : 43,
     backgroundColor: colorStyles.backgroundFocus,
     borderBottomRightRadius: 10,
     borderBottomLeftRadius: 10,
@@ -140,6 +141,7 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     display: 'flex',
     flexDirection: 'row',
+    alignItems: 'center',
     gap: 15,
   },
 })

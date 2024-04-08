@@ -8,3 +8,5 @@ export default function Vacancy({ navigation }) {
     </Page>
   )
 }
+
+const styles = StyleSheet.create({})

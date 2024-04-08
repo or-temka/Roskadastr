@@ -8,3 +8,5 @@ export default function Profile({ navigation }) {
     </Page>
   )
 }
+
+const styles = StyleSheet.create({})
