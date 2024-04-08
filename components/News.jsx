@@ -3,7 +3,7 @@ import { StyleSheet, View, FlatList, Text } from 'react-native'
 import OneNews from './OneNews'
 import { useState } from 'react'
 import DownMenu from './DownMenu'
-import Header from './Header'
+import Page from '../pages/Page'
 
 
 export default function News({ navigation }) {
@@ -17,7 +17,7 @@ export default function News({ navigation }) {
   ])
 
   return (
-    <View>
+    <Page navigation={navigation}>
       <FlatList
         data={news}
         renderItem={({ item }) => (
@@ -31,8 +31,7 @@ export default function News({ navigation }) {
           
         )}
       ></FlatList>
-      <DownMenu navigation={navigation} />
-    </View>
+    </Page>
   )
 }
 const styles = StyleSheet.create({

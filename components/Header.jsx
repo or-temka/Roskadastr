@@ -1,8 +1,12 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Image, Platform, StyleSheet, Text, View } from 'react-native'
 import { colorStyles, typography } from '../variables'
 import MenuButtonSVG from './svg/MenuButtonSVG'
 import { TouchableOpacity } from 'react-native'
 import { useState } from 'react'
+import HeaderMenuNewsSVG from './svg/HeaderMenuNewsSVG'
+import HeaderMenuServiceSVG from './svg/HeaderMenuServiceSVG'
+import HeaderMenuAboutUsSVG from './svg/HeaderMenuAboutUsSVG'
+import HeaderMenuVacancySVG from './svg/HeaderMenuVacancySVG'
 
 export default function Header({ navigation }) {
   const [visibleMenu, setVisibleMenu] = useState(false)
@@ -40,24 +44,28 @@ export default function Header({ navigation }) {
             style={styles.header__menuItem}
             onPress={() => openPageFromMenu('news')}
           >
+            <HeaderMenuNewsSVG />
             <Text>Новости</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.header__menuItem}
             onPress={() => openPageFromMenu('serviceAdd')}
           >
+            <HeaderMenuServiceSVG />
             <Text>Услуги</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.header__menuItem}
             onPress={() => openPageFromMenu('aboutUs')}
           >
+            <HeaderMenuAboutUsSVG />
             <Text>О нас</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.header__menuItem}
             onPress={() => openPageFromMenu('vacancy')}
           >
+            <HeaderMenuVacancySVG />
             <Text>Вакансии</Text>
           </TouchableOpacity>
         </View>
@@ -72,7 +80,7 @@ const styles = StyleSheet.create({
     display: 'flex',
   },
   header__header: {
-    marginTop: 40,
+    marginTop: Platform.OS === "android" ? 40 : 0,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
@@ -112,7 +120,7 @@ const styles = StyleSheet.create({
   },
   header__menu: {
     position: 'absolute',
-    marginTop: 83,
+    marginTop: Platform.OS === "android" ? 83 : 43,
     backgroundColor: colorStyles.backgroundFocus,
     borderBottomRightRadius: 10,
     borderBottomLeftRadius: 10,
@@ -130,5 +138,8 @@ const styles = StyleSheet.create({
   header__menuItem: {
     padding: 10,
     paddingLeft: 15,
+    display: 'flex',
+    flexDirection: 'row',
+    gap: 15,
   },
 })
