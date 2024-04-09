@@ -7,6 +7,10 @@ export default gStyles = StyleSheet.create({
     flexDirection: 'row',
     gap: 5,
   },
+  emptyField: {
+    width: '100%',
+    height: 150,
+  },
 
   text: {
     ...typography.text,

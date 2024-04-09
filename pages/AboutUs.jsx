@@ -79,6 +79,7 @@ export default function AboutUs({ navigation }) {
             </View>
           </View>
         </View>
+        <View style={gStyles.emptyField}></View>
       </ScrollView>
     </Page>
   )
