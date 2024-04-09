@@ -11,6 +11,7 @@ import AboutUs from '../pages/AboutUs'
 import ServiceAdd from '../pages/ServiceAdd'
 import Header from './Header'
 import NotSighIn from '../pages/NotSignIn'
+import SighIn from '../pages/SignIn'
 
 const Tab = createBottomTabNavigator()
 
@@ -37,6 +38,7 @@ export default function Navigate() {
 
         {/* Other pages */}
         <Tab.Screen name="notSignIn" component={NotSighIn} />
+        <Tab.Screen name="signIn" component={SighIn} />
       </Tab.Navigator>
     </NavigationContainer>
   )

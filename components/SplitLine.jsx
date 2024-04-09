@@ -1,10 +1,10 @@
 import { StyleSheet, View } from 'react-native'
 import { colorStyles } from '../variables'
 
-export default function SplitLine({ title, textColor }) {
+export default function SplitLine({ style, lineStyle }) {
   return (
-    <View style={styles.splitLine}>
-      <View style={styles.splitLine__line}></View>
+    <View style={[styles.splitLine, style]}>
+      <View style={[styles.splitLine__line, lineStyle]}></View>
     </View>
   )
 }

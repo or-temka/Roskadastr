@@ -15,7 +15,7 @@ export default function NotSighIn({ navigation }) {
       <View style={styles.notSignIn}>
         <View style={[gStyles.mergeText, styles.notSignIn__mainText]}>
           <Text style={[gStyles.text, styles.notSignIn__mainText]}>
-            <TouchableOpacity style={styles.notSignIn__link}>
+            <TouchableOpacity style={styles.notSignIn__link} onPress={() => navigation.navigate("signIn")}>
               <Text style={[gStyles.textUnderline, styles.notSignIn__linkText]}>
                 Войдите
               </Text>
