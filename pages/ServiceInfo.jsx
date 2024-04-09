@@ -6,6 +6,7 @@ import { colorStyles } from '../variables'
 import SplitLine from '../components/SplitLine'
 import SplitLineText from '../components/SplitLineText'
 import ServiceAddButtonSVG from '../components/svg/ServiceAddButtonSVG'
+import BackButton from '../components/BackButton'
 
 export default function ServiceInfo({ navigation, route }) {
   const { serviceId } = route.params
@@ -15,7 +16,10 @@ export default function ServiceInfo({ navigation, route }) {
     <Page navigation={navigation}>
       <ScrollView>
         <View style={styles.serviceInfo}>
-          <Text style={gStyles.h4}>{service.name}</Text>
+          <BackButton navigation={navigation} backNamePage="services" />
+          <Text style={[gStyles.h4, styles.serviceInfo__label]}>
+            {service.name}
+          </Text>
           <SplitLineText
             text="Информация об услуге"
             style={styles.serviceInfo__splitLine}
@@ -108,11 +112,13 @@ export default function ServiceInfo({ navigation, route }) {
             title="Переписка с ведомством"
             style={styles.serviceInfo__buttonForm}
           />
-          <ButtonForm
-            textColor={colorStyles.text.error}
-            title="Отмена"
-            style={styles.serviceInfo__buttonForm}
-          />
+          {service.status === 'active' && (
+            <ButtonForm
+              textColor={colorStyles.text.error}
+              title="Отмена"
+              style={styles.serviceInfo__buttonForm}
+            />
+          )}
         </View>
         <View style={gStyles.emptyField}></View>
       </ScrollView>
@@ -125,6 +131,9 @@ const styles = StyleSheet.create({
     backgroundColor: colorStyles.backgroundFocus,
     borderRadius: 10,
     padding: 10,
+  },
+  serviceInfo__label: {
+    color: colorStyles.text.linkBlue,
   },
   serviceInfo__splitLine: {
     paddingHorizontal: 0,
