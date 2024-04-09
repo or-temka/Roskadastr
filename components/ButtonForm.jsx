@@ -3,9 +3,9 @@ import gStyles from '../gStyles'
 import { colorStyles } from '../variables'
 import { TouchableOpacity } from 'react-native'
 
-export default function ButtonForm({ title, textColor }) {
+export default function ButtonForm({ title, textColor, onPress }) {
   return (
-    <TouchableOpacity style={styles.button}>
+    <TouchableOpacity style={styles.button} onPress={onPress}>
       <Text style={[gStyles.text, { color: textColor }]}>{title}</Text>
     </TouchableOpacity>
   )

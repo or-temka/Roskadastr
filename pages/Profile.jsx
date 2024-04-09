@@ -21,7 +21,7 @@ export default function Profile({ navigation }) {
           <ButtonForm title="Редактировать профиль" />
           <ButtonForm title="Помощь" />
           <SplitLine />
-          <ButtonForm title="Выйти" textColor={colorStyles.text.error} />
+          <ButtonForm title="Выйти" textColor={colorStyles.text.error} onPress={() => navigation.navigate("notSignIn")}/>
         </View>
         <View style={gStyles.emptyField}></View>
       </ScrollView>
