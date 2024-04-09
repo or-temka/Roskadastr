@@ -15,7 +15,7 @@ export default function Page({ children, navigation }) {
 const styles = StyleSheet.create({
   page: {
     flex: 1,
-    marginTop: Platform.OS === 'android' ? 83 : 43,
+    marginTop: Platform.OS === 'android' ? 92 : 52,
   },
   page__contentContainer: {
     paddingBottom: 40,
