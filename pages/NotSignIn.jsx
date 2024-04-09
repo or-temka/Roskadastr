@@ -15,13 +15,19 @@ export default function NotSighIn({ navigation }) {
       <View style={styles.notSignIn}>
         <View style={[gStyles.mergeText, styles.notSignIn__mainText]}>
           <Text style={[gStyles.text, styles.notSignIn__mainText]}>
-            <TouchableOpacity style={styles.notSignIn__link} onPress={() => navigation.navigate("signIn")}>
+            <TouchableOpacity
+              style={styles.notSignIn__link}
+              onPress={() => navigation.navigate('signIn')}
+            >
               <Text style={[gStyles.textUnderline, styles.notSignIn__linkText]}>
                 Войдите
               </Text>
             </TouchableOpacity>{' '}
             <Text style={styles.notSignIn__simpleText}>или </Text>
-            <TouchableOpacity style={styles.notSignIn__link}>
+            <TouchableOpacity
+              style={styles.notSignIn__link}
+              onPress={() => navigation.navigate('signUp')}
+            >
               <Text style={[gStyles.textUnderline, styles.notSignIn__linkText]}>
                 создайте аккаунт
               </Text>

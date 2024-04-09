@@ -5,21 +5,23 @@ import { colorStyles, typography } from '../variables'
 export default function Input({
   style,
   title,
-  onChangeText,
+  onChangeText = () => {},
   value,
   placeholder,
-  isSecure,
+  isSecure = false,
+  isEditable = true,
 }) {
   return (
-    <View style={styles.input}>
+    <View style={[styles.input, style]}>
       <Text style={[gStyles.lightParagraph, styles.input__title]}>{title}</Text>
       <TextInput
-        style={[styles.input__input, style]}
+        style={styles.input__input}
         onChangeText={onChangeText}
         value={value}
         placeholder={placeholder}
         placeholderTextColor={colorStyles.text.lightText}
         secureTextEntry={isSecure}
+        editable={isEditable}
       />
     </View>
   )
