@@ -1,4 +1,4 @@
-import { Image, Platform, StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, View } from 'react-native'
 import { colorStyles, typography } from '../variables'
 import MenuButtonSVG from './svg/MenuButtonSVG'
 import { TouchableOpacity } from 'react-native'
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     display: 'flex',
   },
   header__header: {
-    marginTop: Platform.OS === 'android' ? 40 : 0,
+    marginTop:  0,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
   },
   header__menu: {
     position: 'absolute',
-    marginTop: Platform.OS === 'android' ? 92 : 52,
+    marginTop: 52,
     backgroundColor: colorStyles.backgroundFocus,
     borderBottomRightRadius: 10,
     borderBottomLeftRadius: 10,

@@ -7,6 +7,7 @@ import SplitLine from '../components/SplitLine'
 import SplitLineText from '../components/SplitLineText'
 import ServiceAddButtonSVG from '../components/svg/ServiceAddButtonSVG'
 import OneService from '../components/OneService'
+import services from '../data/services'
 
 export default function Services({ navigation }) {
   return (
@@ -20,28 +21,18 @@ export default function Services({ navigation }) {
             iconComponent={
               <ServiceAddButtonSVG active={true} width="18" height="18" />
             }
+            navigation={navigation}
+            onPress={() => navigation.navigate('chooseServiceForAdd')}
           />
           <SplitLineText text="Мои услуги" style={styles.services__splitLine} />
-          <OneService
-            serviceId={1}
-            style={styles.services__oneService}
-            navigation={navigation}
-          />
-          <OneService
-            serviceId={2}
-            style={styles.services__oneService}
-            navigation={navigation}
-          />
-          <OneService
-            serviceId={3}
-            style={styles.services__oneService}
-            navigation={navigation}
-          />
-          <OneService
-            serviceId={4}
-            style={styles.services__oneService}
-            navigation={navigation}
-          />
+          {services.map((service) => (
+            <OneService
+              serviceId={service.id}
+              style={styles.services__oneService}
+              navigation={navigation}
+              key={service.id}
+            />
+          ))}
         </View>
         <View style={gStyles.emptyField}></View>
       </ScrollView>

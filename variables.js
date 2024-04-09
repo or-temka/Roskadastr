@@ -21,7 +21,6 @@ export const colorStyles = {
 }
 
 export const typography = {
-  fontFamily: 'Noto Sans',
   h1: {
     fontSize: 28,
     lineHeight: 36,

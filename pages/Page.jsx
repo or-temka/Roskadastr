@@ -1,4 +1,4 @@
-import { StyleSheet, View } from 'react-native'
+import { StatusBar, StyleSheet, View } from 'react-native'
 import DownMenu from '../components/DownMenu'
 import { Platform } from 'react-native'
 
@@ -9,13 +9,14 @@ export default function Page({ children, navigation }) {
         {children}
       </View>
       <DownMenu navigation={navigation} />
+      <StatusBar barStyle="dark-content" />
     </View>
   )
 }
 const styles = StyleSheet.create({
   page: {
     flex: 1,
-    marginTop: Platform.OS === 'android' ? 92 : 52,
+    marginTop: 52,
   },
   page__contentContainer: {
     paddingBottom: 49,
