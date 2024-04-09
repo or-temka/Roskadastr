@@ -120,7 +120,7 @@ export default function ServiceInfo({ navigation, route }) {
             />
           )}
         </View>
-        <View style={gStyles.emptyField}></View>
+        <View style={{ marginBottom: 90 }}></View>
       </ScrollView>
     </Page>
   )

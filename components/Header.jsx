@@ -50,7 +50,7 @@ export default function Header({ navigation }) {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.header__menuItem}
-            onPress={() => openPageFromMenu('serviceAdd')}
+            onPress={() => openPageFromMenu('services')}
           >
             <HeaderMenuServiceSVG />
             <Text style={gStyles.text}>Услуги</Text>

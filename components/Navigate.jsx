@@ -16,7 +16,6 @@ import SighUp from '../pages/SignUp'
 import EditProfile from '../pages/EditProfile'
 import Services from '../pages/Services'
 import ServiceInfo from '../pages/ServiceInfo'
-import chooseServiceForAdd from '../pages/ChooseServiceForAdd'
 import ChooseServiceForAdd from '../pages/ChooseServiceForAdd'
 
 const Tab = createBottomTabNavigator()
@@ -51,6 +50,7 @@ export default function Navigate() {
         {/* Services pages */}
         <Tab.Screen name="serviceInfo" component={ServiceInfo} />
         <Tab.Screen name="chooseServiceForAdd" component={ChooseServiceForAdd} />
+        <Tab.Screen name="serviceAdd" component={ServiceAdd} />
       </Tab.Navigator>
     </NavigationContainer>
   )

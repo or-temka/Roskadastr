@@ -25,7 +25,6 @@ export default function EditProfile({ navigation }) {
   const [oldPasswordInput, setOldPasswordInput] = useState('')
   const [passwordInput, setPasswordInput] = useState('')
   const [confirmPasswordInput, setConfirmPasswordInput] = useState('')
-  const [policyCheckbox, setPolicyCheckbox] = useState(false)
 
   const [disabledEnterBtn, setDisabledEnterBtn] = useState(true)
 
@@ -38,7 +37,8 @@ export default function EditProfile({ navigation }) {
       cityInput &&
       branchInput &&
       passwordInput &&
-      confirmPasswordInput
+      confirmPasswordInput &&
+      oldPasswordInput
     if (condition) {
       setDisabledEnterBtn(false)
     } else {
@@ -134,17 +134,13 @@ export default function EditProfile({ navigation }) {
             style={styles.editProfile__input}
           />
           <SplitLine style={styles.editProfile__splitLine} />
-          <InputCheckbox
-            style={styles.editProfile__policyCheckbox}
-            text="Согласен с политикой обработки персональных данных"
-            onChange={(isActive) => setPolicyCheckbox(isActive)}
-          />
           <Button
             title="Сохранить"
             isFocusBtn={disabledEnterBtn ? false : true}
             isDisabled={disabledEnterBtn}
           />
         </View>
+        <View style={gStyles.emptyField}></View>
       </ScrollView>
     </Page>
   )

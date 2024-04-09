@@ -22,11 +22,12 @@ export default function ChooseServiceForAdd({ navigation }) {
               <OneServiceType
                 serviceTypeId={serviceType.id}
                 key={serviceType.id}
+                navigation={navigation}
               />
             ))}
           </View>
         </View>
-        <View style={gStyles.emptyField}></View>
+        {serviceTypes.length < 7 && <View style={{ marginBottom: 90 }}></View>}
       </ScrollView>
     </Page>
   )
@@ -44,5 +45,7 @@ const styles = StyleSheet.create({
   chooseServiceForAdd__services: {
     display: 'flex',
     flexDirection: 'column',
+    gap: 10,
+    marginVertical: 10,
   },
 })
