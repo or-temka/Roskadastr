@@ -5,12 +5,13 @@ import { TouchableOpacity } from 'react-native'
 
 export default function ButtonForm({
   title,
+  style,
   textColor,
   onPress,
   iconComponent,
 }) {
   return (
-    <TouchableOpacity style={styles.button} onPress={onPress}>
+    <TouchableOpacity style={[styles.button, style]} onPress={onPress}>
       {iconComponent && iconComponent}
       <Text style={[gStyles.text, { color: textColor }]}>{title}</Text>
     </TouchableOpacity>

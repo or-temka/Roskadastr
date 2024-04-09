@@ -11,8 +11,8 @@ import OneService from '../components/OneService'
 export default function Services({ navigation }) {
   return (
     <Page navigation={navigation}>
-      <ScrollView style={styles.services}>
-        <View style={styles.services__container}>
+      <ScrollView>
+        <View style={styles.services}>
           <Text style={gStyles.h4}>Услуги</Text>
           <SplitLine style={styles.services__splitLine} />
           <ButtonForm
@@ -23,30 +23,22 @@ export default function Services({ navigation }) {
           />
           <SplitLineText text="Мои услуги" style={styles.services__splitLine} />
           <OneService
-            status="active"
-            address="г. Ярославль, ул. Оплеснина, д. 7"
-            name="Кадастровая услуга"
+            serviceId={1}
             style={styles.services__oneService}
             navigation={navigation}
           />
           <OneService
-            status="done"
-            address="г. Ярославль, ул. Оплеснина, д. 7"
-            name="Межевой план"
+            serviceId={2}
             style={styles.services__oneService}
             navigation={navigation}
           />
           <OneService
-            status="cancel"
-            address="г. Ярославль, ул. Оплеснина, д. 7"
-            name="Составление договора"
+            serviceId={3}
             style={styles.services__oneService}
             navigation={navigation}
           />
           <OneService
-            status="done"
-            address="г. Ярославль, ул. Оплеснина, д. 7"
-            name="Кадастровая услуга"
+            serviceId={4}
             style={styles.services__oneService}
             navigation={navigation}
           />
@@ -58,7 +50,7 @@ export default function Services({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  services__container: {
+  services: {
     backgroundColor: colorStyles.backgroundFocus,
     borderRadius: 10,
     padding: 10,

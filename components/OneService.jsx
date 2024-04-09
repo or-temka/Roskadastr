@@ -1,17 +1,14 @@
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
 import { colorStyles } from '../variables'
 import gStyles from '../gStyles'
+import services from '../data/services'
 
-export default function OneService({
-  navigation,
-  style,
-  name = 'Название услуги',
-  status = 'cancel',
-  address = 'Адрес услуги',
-}) {
+export default function OneService({ navigation, style, serviceId }) {
   function pressServiceHandler() {
-    navigation.navigate('news')
+    navigation.navigate('serviceInfo', { serviceId })
   }
+
+  const service = services.find((service) => service.id === serviceId)
 
   return (
     <TouchableOpacity
@@ -23,9 +20,9 @@ export default function OneService({
           <View
             style={[
               styles.oneService__activityCircle,
-              status === 'active'
+              service.status === 'active'
                 ? ''
-                : status === 'done'
+                : service.status === 'done'
                 ? styles.oneService__activityCircle_done
                 : styles.oneService__activityCircle_cancel,
             ]}
@@ -34,30 +31,32 @@ export default function OneService({
             style={[
               gStyles.smallText,
               styles.oneService__activityText,
-              status === 'active'
+              service.status === 'active'
                 ? ''
-                : status === 'done'
+                : service.status === 'done'
                 ? styles.oneService__activityText_done
                 : styles.oneService__activityText_cancel,
             ]}
           >
-            {status === 'active'
+            {service.status === 'active'
               ? 'Активная'
-              : status === 'done'
+              : service.status === 'done'
               ? 'Завершена'
               : 'Отменена'}
           </Text>
         </View>
         <View style={styles.oneService__smallData}>
           <Text style={gStyles.smallLightText}>
-            Пятница 14.02.24 в 14:30 каб. 10
+            {service.date + '    каб. ' + service.cabinet}
           </Text>
         </View>
       </View>
       <View style={styles.oneService__content}>
-        <Text style={[gStyles.text, styles.oneService__label]}>{name}</Text>
+        <Text style={[gStyles.text, styles.oneService__label]}>
+          {service.name}
+        </Text>
         <Text style={[gStyles.smallLightText, styles.oneService__address]}>
-          {address}
+          {'г. ' + service.city + ', ' + service.branchAddress}
         </Text>
       </View>
     </TouchableOpacity>

@@ -15,7 +15,7 @@ export default function DownMenu({ navigation }) {
   const currentPage = useRoute().name
 
   const newsPages = ['news', 'vacancy', 'aboutUs']
-  const servicePages = ['services','serviceAdd']
+  const servicePages = ['services','serviceAdd', 'serviceInfo']
   const messagesPages = ['messages']
   const profilePages = [
     'profile',
