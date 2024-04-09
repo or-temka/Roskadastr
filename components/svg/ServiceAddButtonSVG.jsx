@@ -5,8 +5,8 @@ import { colorStyles } from '../../variables'
 export default function ServiceAddButtonSVG({ active }) {
   return (
     <Svg
-      width="19"
-      height="18"
+      width="23"
+      height="23"
       viewBox="0 0 19 18"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

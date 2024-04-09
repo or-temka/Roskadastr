@@ -18,6 +18,6 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS === 'android' ? 92 : 52,
   },
   page__contentContainer: {
-    paddingBottom: 40,
+    paddingBottom: 49,
   }
 })

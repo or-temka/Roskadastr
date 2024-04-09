@@ -68,8 +68,10 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   downMenu__element: {
-    width: 45,
-    height: 39,
+    width: '25%',
+    height: 48,
+    borderTopWidth: 1,
+    borderTopColor: colorStyles.border,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
