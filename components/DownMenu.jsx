@@ -15,7 +15,7 @@ export default function DownMenu({ navigation }) {
   const currentPage = useRoute().name
 
   const newsPages = ['news', 'vacancy', 'aboutUs']
-  const servicePages = ['serviceAdd']
+  const servicePages = ['services','serviceAdd']
   const messagesPages = ['messages']
   const profilePages = [
     'profile',
@@ -37,7 +37,7 @@ export default function DownMenu({ navigation }) {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.downMenu__element}
-        onPress={() => openPage('serviceAdd')}
+        onPress={() => openPage('services')}
       >
         <ServiceAddButtonSVG
           active={servicePages.includes(currentPage) ? true : false}

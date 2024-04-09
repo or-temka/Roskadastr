@@ -14,6 +14,7 @@ import NotSighIn from '../pages/NotSignIn'
 import SighIn from '../pages/SignIn'
 import SighUp from '../pages/SignUp'
 import EditProfile from '../pages/EditProfile'
+import Services from '../pages/Services'
 
 const Tab = createBottomTabNavigator()
 
@@ -30,7 +31,7 @@ export default function Navigate() {
       >
         {/* Main pages */}
         <Tab.Screen name="news" component={News} />
-        <Tab.Screen name="serviceAdd" component={ServiceAdd} />
+        <Tab.Screen name="services" component={Services} />
         <Tab.Screen name="messages" component={Messages} />
         <Tab.Screen name="profile" component={Profile} />
 

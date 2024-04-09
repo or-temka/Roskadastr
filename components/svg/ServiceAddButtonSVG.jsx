@@ -2,11 +2,11 @@ import { StyleSheet } from 'react-native'
 import Svg, { Path } from 'react-native-svg'
 import { colorStyles } from '../../variables'
 
-export default function ServiceAddButtonSVG({ active }) {
+export default function ServiceAddButtonSVG({ active, width = "23", height = "23"}) {
   return (
     <Svg
-      width="23"
-      height="23"
+      width={width}
+      height={height}
       viewBox="0 0 19 18"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
