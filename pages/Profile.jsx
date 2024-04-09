@@ -15,13 +15,21 @@ export default function Profile({ navigation }) {
           username="Наталья Волкова"
           city="г. Сыктыкар"
           style={styles.profile__item}
+          navigation={navigation}
         />
         <ProfileBranch style={styles.profile__item} />
         <View style={styles.profile__menuOptions}>
-          <ButtonForm title="Редактировать профиль" />
+          <ButtonForm
+            title="Редактировать профиль"
+            onPress={() => navigation.navigate('editProfile')}
+          />
           <ButtonForm title="Помощь" />
           <SplitLine />
-          <ButtonForm title="Выйти" textColor={colorStyles.text.error} onPress={() => navigation.navigate("notSignIn")}/>
+          <ButtonForm
+            title="Выйти"
+            textColor={colorStyles.text.error}
+            onPress={() => navigation.navigate('notSignIn')}
+          />
         </View>
         <View style={gStyles.emptyField}></View>
       </ScrollView>

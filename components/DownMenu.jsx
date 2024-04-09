@@ -17,7 +17,13 @@ export default function DownMenu({ navigation }) {
   const newsPages = ['news', 'vacancy', 'aboutUs']
   const servicePages = ['serviceAdd']
   const messagesPages = ['messages']
-  const profilePages = ['profile', 'notSignIn', 'signUp', 'signIn']
+  const profilePages = [
+    'profile',
+    'notSignIn',
+    'signUp',
+    'signIn',
+    'editProfile',
+  ]
 
   return (
     <View style={styles.downMenu__menu}>

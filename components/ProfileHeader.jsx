@@ -3,20 +3,20 @@ import { colorStyles, typography } from '../variables'
 import gStyles from '../gStyles'
 import ProfileEditBtnSVG from '../components/svg/ProfileEditBtnSVG'
 
-export default function ProfileHeader({ username, city, style }) {
+export default function ProfileHeader({ username, city, style, navigation }) {
   return (
     <View style={[styles.profileBranch, style]}>
       <View style={styles.profileBranch__container}>
         <Image
           style={styles.profileBranch__image}
-          source={require('../assets/img/profile/I7MOh9AsNWw.jpg')}
+          source={require('../assets/img/HaventPhoto.jpg')}
         />
         <View style={styles.profileBranch__personData}>
           <Text style={gStyles.h6}>{username}</Text>
           <Text style={gStyles.paragraph}>{city}</Text>
         </View>
       </View>
-      <TouchableOpacity style={styles.profileBranch__editBtnContainer}>
+      <TouchableOpacity style={styles.profileBranch__editBtnContainer} onPress={() => navigation.navigate("editProfile")}>
         <ProfileEditBtnSVG />
       </TouchableOpacity>
     </View>

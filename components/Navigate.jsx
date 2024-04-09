@@ -13,6 +13,7 @@ import Header from './Header'
 import NotSighIn from '../pages/NotSignIn'
 import SighIn from '../pages/SignIn'
 import SighUp from '../pages/SignUp'
+import EditProfile from '../pages/EditProfile'
 
 const Tab = createBottomTabNavigator()
 
@@ -41,6 +42,7 @@ export default function Navigate() {
         <Tab.Screen name="notSignIn" component={NotSighIn} />
         <Tab.Screen name="signIn" component={SighIn} />
         <Tab.Screen name="signUp" component={SighUp} />
+        <Tab.Screen name="editProfile" component={EditProfile} />
       </Tab.Navigator>
     </NavigationContainer>
   )
