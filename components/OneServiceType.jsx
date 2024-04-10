@@ -4,9 +4,9 @@ import gStyles from '../gStyles'
 import serviceTypes from '../data/serviceTypes'
 
 export default function OneServiceType({ navigation, style, serviceTypeId }) {
-  // function pressServiceHandler() {
-  //   navigation.navigate('serviceInfo', { serviceId })
-  // }
+  function pressServiceHandler() {
+    navigation.navigate('serviceAdd', { serviceTypeId })
+  }
 
   const serviceType = serviceTypes.find(
     (serviceType) => serviceType.id === serviceTypeId
@@ -15,7 +15,7 @@ export default function OneServiceType({ navigation, style, serviceTypeId }) {
   return (
     <TouchableOpacity
       style={[styles.oneServiceType, style]}
-      // onPress={pressServiceHandler}
+      onPress={pressServiceHandler}
     >
       <View style={styles.oneServiceType__content}>
         <Text style={[gStyles.h6, styles.oneServiceType__name]}>

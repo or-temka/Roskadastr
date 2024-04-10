@@ -3,7 +3,6 @@ import Page from './Page'
 import gStyles from '../gStyles'
 import { colorStyles } from '../variables'
 import SplitLine from '../components/SplitLine'
-import SplitLineText from '../components/SplitLineText'
 import BackButton from '../components/BackButton'
 import OneServiceType from '../components/OneServiceType'
 import serviceTypes from '../data/serviceTypes'
@@ -22,11 +21,12 @@ export default function ChooseServiceForAdd({ navigation }) {
               <OneServiceType
                 serviceTypeId={serviceType.id}
                 key={serviceType.id}
+                navigation={navigation}
               />
             ))}
           </View>
         </View>
-        <View style={gStyles.emptyField}></View>
+        {serviceTypes.length < 7 && <View style={{ marginBottom: 90 }}></View>}
       </ScrollView>
     </Page>
   )
@@ -44,5 +44,7 @@ const styles = StyleSheet.create({
   chooseServiceForAdd__services: {
     display: 'flex',
     flexDirection: 'column',
+    gap: 10,
+    marginVertical: 10,
   },
 })

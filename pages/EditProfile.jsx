@@ -1,19 +1,14 @@
-import {
-  StyleSheet,
-  View,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-} from 'react-native'
+import { StyleSheet, View, ScrollView, Text } from 'react-native'
 import Page from './Page'
 import gStyles from '../gStyles'
 import { colorStyles } from '../variables'
 import SplitLine from '../components/SplitLine'
-import Input from '../components/input'
+import Input from '../components/Input'
 import { useEffect, useState } from 'react'
 import Button from '../components/Button'
 import SplitLineText from '../components/SplitLineText'
-import InputCheckbox from '../components/InputCheckbox'
+import ButtonForm from '../components/ButtonForm'
+import ModalConfirm from '../components/ModalConfirm'
 
 export default function EditProfile({ navigation }) {
   const [loginInput, setLoginInput] = useState('')
@@ -25,7 +20,6 @@ export default function EditProfile({ navigation }) {
   const [oldPasswordInput, setOldPasswordInput] = useState('')
   const [passwordInput, setPasswordInput] = useState('')
   const [confirmPasswordInput, setConfirmPasswordInput] = useState('')
-  const [policyCheckbox, setPolicyCheckbox] = useState(false)
 
   const [disabledEnterBtn, setDisabledEnterBtn] = useState(true)
 
@@ -38,7 +32,8 @@ export default function EditProfile({ navigation }) {
       cityInput &&
       branchInput &&
       passwordInput &&
-      confirmPasswordInput
+      confirmPasswordInput &&
+      oldPasswordInput
     if (condition) {
       setDisabledEnterBtn(false)
     } else {
@@ -55,6 +50,18 @@ export default function EditProfile({ navigation }) {
     passwordInput,
     confirmPasswordInput,
   ])
+
+  //for modal
+  const [modalVisible, setModalVisible] = useState(false)
+
+  function confirmModalHandler() {
+    console.log('Аккаунт удален из бд')
+    setModalVisible(false)
+    navigation.navigate('signIn')
+  }
+  function cancelModalHandler() {
+    setModalVisible(false)
+  }
 
   return (
     <Page navigation={navigation}>
@@ -134,18 +141,29 @@ export default function EditProfile({ navigation }) {
             style={styles.editProfile__input}
           />
           <SplitLine style={styles.editProfile__splitLine} />
-          <InputCheckbox
-            style={styles.editProfile__policyCheckbox}
-            text="Согласен с политикой обработки персональных данных"
-            onChange={(isActive) => setPolicyCheckbox(isActive)}
-          />
           <Button
             title="Сохранить"
             isFocusBtn={disabledEnterBtn ? false : true}
             isDisabled={disabledEnterBtn}
           />
+          <SplitLine style={styles.editProfile__splitLine} />
+          <ButtonForm
+            title="Удалить аккаунт"
+            textColor={colorStyles.text.error}
+            onPress={() => setModalVisible(true)}
+          />
         </View>
+        <View style={gStyles.emptyField}></View>
       </ScrollView>
+      {modalVisible && (
+        <ModalConfirm
+          label="Вы уверены, что хотите удалить свой аккаунт?"
+          visible={modalVisible}
+          confirmHandler={() => confirmModalHandler()}
+          confirmBtnText="Да, уверен"
+          cancelHandler={cancelModalHandler}
+        />
+      )}
     </Page>
   )
 }

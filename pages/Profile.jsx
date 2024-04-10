@@ -1,4 +1,4 @@
-import { StyleSheet, View, ScrollView } from 'react-native'
+import { StyleSheet, View, ScrollView, Linking } from 'react-native'
 import Page from './Page'
 import gStyles from '../gStyles'
 import ProfileBranch from '../components/ProfileBranch'
@@ -23,7 +23,24 @@ export default function Profile({ navigation }) {
             title="Редактировать профиль"
             onPress={() => navigation.navigate('editProfile')}
           />
-          <ButtonForm title="Помощь" />
+          <ButtonForm
+            title="Помощь"
+            onPress={() =>
+              Linking.openURL('https://kadastr.ru/feedback/online/')
+            }
+          />
+          <ButtonForm
+            title="Официальный сайт"
+            onPress={() =>
+              Linking.openURL('https://kadastr.ru/')
+            }
+          />
+          <ButtonForm
+            title="Официальная группа во Вконтакте"
+            onPress={() =>
+              Linking.openURL('https://vk.com/kadastr_ru')
+            }
+          />
           <SplitLine />
           <ButtonForm
             title="Выйти"

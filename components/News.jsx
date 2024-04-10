@@ -1,4 +1,4 @@
-import { StyleSheet, View, FlatList, Text } from 'react-native'
+import { StyleSheet, View, FlatList } from 'react-native'
 
 import OneNews from './OneNews'
 import { useState } from 'react'

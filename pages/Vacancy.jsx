@@ -1,4 +1,4 @@
-import { StyleSheet, View, FlatList, Text, ScrollView } from 'react-native'
+import { StyleSheet, View, Text, ScrollView } from 'react-native'
 import Page from './Page'
 import gStyles from '../gStyles'
 import { useState } from 'react'

@@ -1,4 +1,4 @@
-import { StyleSheet, View, FlatList, Text } from 'react-native'
+import { StyleSheet, View, Text } from 'react-native'
 import Page from './Page'
 import gStyles from '../gStyles'
 import { colorStyles } from '../variables'

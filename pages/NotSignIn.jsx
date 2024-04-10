@@ -1,11 +1,7 @@
-import { StyleSheet, View, ScrollView, Text } from 'react-native'
+import { StyleSheet, View, Text } from 'react-native'
 import Page from './Page'
 import gStyles from '../gStyles'
-import ProfileBranch from '../components/ProfileBranch'
-import ProfileHeader from '../components/ProfileHeader'
-import ButtonForm from '../components/ButtonForm'
 import { colorStyles } from '../variables'
-import SplitLine from '../components/SplitLine'
 import SignInBigSVG from '../components/svg/SignInBigSVG'
 import { TouchableOpacity } from 'react-native'
 
