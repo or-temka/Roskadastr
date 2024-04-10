@@ -1,4 +1,11 @@
-import { StyleSheet, View, ScrollView, Text } from 'react-native'
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  Text,
+  Modal,
+  TouchableOpacity,
+} from 'react-native'
 import Page from './Page'
 import gStyles from '../gStyles'
 import ButtonForm from '../components/ButtonForm'
@@ -8,8 +15,26 @@ import SplitLineText from '../components/SplitLineText'
 import ServiceAddButtonSVG from '../components/svg/ServiceAddButtonSVG'
 import BackButton from '../components/BackButton'
 import serviceTypes from '../data/serviceTypes'
+import ModalConfirm from '../components/ModalConfirm'
+import { useState } from 'react'
 
 export default function ServiceAdd({ navigation, route }) {
+  const [modalVisible, setModalVisible] = useState(false)
+  const [choosedToDoId, setChoosedToDoId] = useState()
+
+  function confirmModalHandler(toDoId) {
+    console.log(toDoId)
+    setModalVisible(false)
+  }
+  function cancelModalHandler() {
+    setModalVisible(false)
+  }
+
+  function openModalFromServiceToDo(toDoId) {
+    setChoosedToDoId(toDoId)
+    setModalVisible(true)
+  }
+
   const { serviceTypeId } = route.params
   const serviceType = serviceTypes.find(
     (serviceType) => serviceType.id === serviceTypeId
@@ -31,7 +56,11 @@ export default function ServiceAdd({ navigation, route }) {
             от {serviceType.price.from} ₽ до {serviceType.price.to} ₽
           </Text>
           {serviceType.toDo.map((toDo) => (
-            <View style={styles.serviceAdd__toDo} key={toDo.id}>
+            <TouchableOpacity
+              style={styles.serviceAdd__toDo}
+              key={toDo.id}
+              onPress={() => openModalFromServiceToDo(toDo.id)}
+            >
               <Text style={[gStyles.h6, styles.serviceAdd__toDoLabel]}>
                 {toDo.text}
               </Text>
@@ -43,11 +72,20 @@ export default function ServiceAdd({ navigation, route }) {
                   </Text>
                 </Text>
               ))}
-            </View>
+            </TouchableOpacity>
           ))}
         </View>
         <View style={gStyles.emptyField}></View>
       </ScrollView>
+      {modalVisible && (
+        <ModalConfirm
+          label="Вы уверены, что хотите создать данную услугу?"
+          visible={modalVisible}
+          confirmHandler={() => confirmModalHandler(choosedToDoId)}
+          confirmBtnText="Да, создать"
+          cancelHandler={cancelModalHandler}
+        />
+      )}
     </Page>
   )
 }
