@@ -23,9 +23,17 @@ export default function Header({ navigation }) {
 
   return (
     <View style={styles.header}>
-      {visibleMenu && <TouchableOpacity style={styles.header__menuBackground} onPress={changeVisibleMenu}></TouchableOpacity>}
+      {visibleMenu && (
+        <TouchableOpacity
+          style={styles.header__menuBackground}
+          onPress={changeVisibleMenu}
+        ></TouchableOpacity>
+      )}
       <View style={styles.header__header}>
-        <TouchableOpacity style={styles.header__logo} onPress={() => openPageFromMenu("news")}>
+        <TouchableOpacity
+          style={styles.header__logo}
+          onPress={() => openPageFromMenu('news')}
+        >
           <Image
             source={require('../assets/icon.png')}
             style={styles.header__logoImg}
@@ -81,7 +89,7 @@ const styles = StyleSheet.create({
     display: 'flex',
   },
   header__header: {
-    marginTop:  0,
+    marginTop: 0,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
@@ -108,7 +116,6 @@ const styles = StyleSheet.create({
   },
   header__logoText: {
     ...typography.h3,
-    fontFamily: 'Noto-Sans',
     fontWeight: '700',
     color: colorStyles.text.text,
   },
