@@ -1,5 +1,5 @@
-import { Image, Text, View, StyleSheet } from 'react-native'
-import { colorStyles, typography } from '../variables'
+import { Text, View, StyleSheet } from 'react-native'
+import { colorStyles } from '../variables'
 import gStyles from '../gStyles'
 
 export default function OneVacancy({ name, price, experience, employment }) {

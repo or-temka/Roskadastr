@@ -1,5 +1,5 @@
 import { Image, Text, View, StyleSheet, TouchableOpacity } from 'react-native'
-import { colorStyles, typography } from '../variables'
+import { colorStyles } from '../variables'
 import gStyles from '../gStyles'
 import ProfileEditBtnSVG from '../components/svg/ProfileEditBtnSVG'
 

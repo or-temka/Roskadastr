@@ -1,6 +1,6 @@
 import { StyleSheet, Text, TextInput, View } from 'react-native'
 import gStyles from '../gStyles'
-import { colorStyles, typography } from '../variables'
+import { colorStyles} from '../variables'
 import { useEffect, useState } from 'react'
 import TickSVG from '../components/svg/TickSVG'
 import { TouchableOpacity } from 'react-native'

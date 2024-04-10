@@ -5,7 +5,6 @@ import ButtonForm from '../components/ButtonForm'
 import { colorStyles } from '../variables'
 import SplitLine from '../components/SplitLine'
 import SplitLineText from '../components/SplitLineText'
-import ServiceAddButtonSVG from '../components/svg/ServiceAddButtonSVG'
 import BackButton from '../components/BackButton'
 
 export default function ServiceInfo({ navigation, route }) {

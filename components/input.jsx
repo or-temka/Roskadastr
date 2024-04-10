@@ -1,7 +1,7 @@
-import { StyleSheet, Text, TextInput, View } from 'react-native'
+import { Platform, StyleSheet, Text, TextInput, View } from 'react-native'
 import gStyles from '../gStyles'
 import { colorStyles, typography } from '../variables'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 export default function Input({
   style,
@@ -12,25 +12,35 @@ export default function Input({
   isSecure = false,
   isEditable = true,
   errorText = '',
+  multiline = false,
 }) {
   const [errorTextValue, setErrorTextValue] = useState(errorText)
 
-  function changeInputTextHandler() {
+  function changeInputTextHandler(value) {
     setErrorTextValue('')
-    onChangeText()
+    onChangeText(value)
   }
 
   return (
     <View style={[styles.input, style]}>
-      <Text style={[gStyles.lightParagraph, styles.input__title]}>{title}</Text>
+      {title && (
+        <Text style={[gStyles.lightParagraph, styles.input__title]}>
+          {title}
+        </Text>
+      )}
       <TextInput
-        style={[styles.input__input, errorTextValue && styles.input__error]}
-        onChangeText={changeInputTextHandler}
+        style={[
+          styles.input__input,
+          errorTextValue && styles.input__error,
+          multiline && styles.input__input_multiline,
+        ]}
+        onChangeText={(value) => changeInputTextHandler(value)}
         value={value}
         placeholder={placeholder}
         placeholderTextColor={colorStyles.text.lightText}
         secureTextEntry={isSecure}
         editable={isEditable}
+        multiline={multiline}
       />
       {errorTextValue && (
         <Text style={[gStyles.paragraph, styles.input__errorText]}>
@@ -57,6 +67,13 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     height: 40,
     paddingHorizontal: 15,
+  },
+  input__input_multiline: {
+    height: 'auto',
+    maxHeight: 140,
+    minHeight: Platform.OS === 'ios' ? 30 : 40,
+    paddingBottom: Platform.OS === 'ios' ? 9 : 7,
+    paddingTop: Platform.OS === 'ios' ? 12 : 7,
   },
   input__error: {
     borderWidth: 1,

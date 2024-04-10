@@ -1,6 +1,5 @@
 import { StyleSheet, Text } from 'react-native'
 import gStyles from '../gStyles'
-import { colorStyles } from '../variables'
 import { TouchableOpacity } from 'react-native'
 import ArrowLeftSVG from './svg/ArrowLeftSVG'
 

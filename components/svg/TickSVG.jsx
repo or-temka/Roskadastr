@@ -1,6 +1,4 @@
-import { StyleSheet, View } from 'react-native'
 import Svg, { Path } from 'react-native-svg'
-import { colorStyles } from '../../variables'
 
 export default function TickSVG() {
   return (

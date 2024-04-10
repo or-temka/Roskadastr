@@ -1,5 +1,5 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
-import { colorStyles, typography } from '../variables'
+import { StyleSheet, Text, View } from 'react-native'
+import { colorStyles} from '../variables'
 import HomeButtonSVG from './svg/HomeButtonSVG'
 import ServiceAddButtonSVG from './svg/ServiceAddButtonSVG'
 import MessagesButtonSVG from './svg/MessagesButtonSVG'

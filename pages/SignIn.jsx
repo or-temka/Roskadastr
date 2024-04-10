@@ -9,7 +9,7 @@ import Page from './Page'
 import gStyles from '../gStyles'
 import { colorStyles } from '../variables'
 import SplitLine from '../components/SplitLine'
-import Input from '../components/input'
+import Input from '../components/Input'
 import { useState, useEffect } from 'react'
 import Button from '../components/Button'
 

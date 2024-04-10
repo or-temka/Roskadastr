@@ -3,16 +3,12 @@ import {
   View,
   ScrollView,
   Text,
-  Modal,
   TouchableOpacity,
 } from 'react-native'
 import Page from './Page'
 import gStyles from '../gStyles'
-import ButtonForm from '../components/ButtonForm'
 import { colorStyles } from '../variables'
 import SplitLine from '../components/SplitLine'
-import SplitLineText from '../components/SplitLineText'
-import ServiceAddButtonSVG from '../components/svg/ServiceAddButtonSVG'
 import BackButton from '../components/BackButton'
 import serviceTypes from '../data/serviceTypes'
 import ModalConfirm from '../components/ModalConfirm'
