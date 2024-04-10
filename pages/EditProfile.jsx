@@ -1,10 +1,4 @@
-import {
-  StyleSheet,
-  View,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-} from 'react-native'
+import { StyleSheet, View, ScrollView, Text } from 'react-native'
 import Page from './Page'
 import gStyles from '../gStyles'
 import { colorStyles } from '../variables'
@@ -13,7 +7,8 @@ import Input from '../components/input'
 import { useEffect, useState } from 'react'
 import Button from '../components/Button'
 import SplitLineText from '../components/SplitLineText'
-import InputCheckbox from '../components/InputCheckbox'
+import ButtonForm from '../components/ButtonForm'
+import ModalConfirm from '../components/ModalConfirm'
 
 export default function EditProfile({ navigation }) {
   const [loginInput, setLoginInput] = useState('')
@@ -55,6 +50,18 @@ export default function EditProfile({ navigation }) {
     passwordInput,
     confirmPasswordInput,
   ])
+
+  //for modal
+  const [modalVisible, setModalVisible] = useState(false)
+
+  function confirmModalHandler() {
+    console.log('Аккаунт удален из бд')
+    setModalVisible(false)
+    navigation.navigate('signIn')
+  }
+  function cancelModalHandler() {
+    setModalVisible(false)
+  }
 
   return (
     <Page navigation={navigation}>
@@ -139,9 +146,24 @@ export default function EditProfile({ navigation }) {
             isFocusBtn={disabledEnterBtn ? false : true}
             isDisabled={disabledEnterBtn}
           />
+          <SplitLine style={styles.editProfile__splitLine} />
+          <ButtonForm
+            title="Удалить аккаунт"
+            textColor={colorStyles.text.error}
+            onPress={() => setModalVisible(true)}
+          />
         </View>
         <View style={gStyles.emptyField}></View>
       </ScrollView>
+      {modalVisible && (
+        <ModalConfirm
+          label="Вы уверены, что хотите удалить свой аккаунт?"
+          visible={modalVisible}
+          confirmHandler={() => confirmModalHandler()}
+          confirmBtnText="Да, уверен"
+          cancelHandler={cancelModalHandler}
+        />
+      )}
     </Page>
   )
 }

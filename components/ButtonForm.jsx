@@ -4,10 +4,10 @@ import { colorStyles } from '../variables'
 import { TouchableOpacity } from 'react-native'
 
 export default function ButtonForm({
-  title,
+  title = '',
   style,
   textColor,
-  onPress,
+  onPress = () => {},
   iconComponent,
 }) {
   return (
