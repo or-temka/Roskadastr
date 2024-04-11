@@ -58,6 +58,11 @@ export const reg = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      return res.status(400).json(errors.array())
+    }
+
     const user = await UserModel.findOne({ login: req.body.login })
 
     if (!user) {

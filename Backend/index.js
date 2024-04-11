@@ -4,7 +4,7 @@ import express from 'express'
 import mongoose from 'mongoose'
 
 import { serverError, serverLog } from './utils/serverLog.js'
-import { registerValidation } from './validations/auth.js'
+import { loginValidation, registerValidation } from './validations.js'
 import checkAuth from './utils/checkAuth.js'
 import * as UserController from './controllers/UserController.js'
 
@@ -24,7 +24,7 @@ app.use(express.json())
 // Registration user (sign up)
 app.post('/user/reg', registerValidation, UserController.reg)
 // user sign in
-app.post('/user/login', UserController.login)
+app.post('/user/login', loginValidation, UserController.login)
 // show user profile
 app.get('/user/me', checkAuth, UserController.getMeInfo)
 
