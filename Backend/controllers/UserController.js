@@ -7,8 +7,6 @@ import jwt from 'jsonwebtoken'
 import { serverError, serverLog } from '../utils/serverLog.js'
 import UserModel from '../models/User.js'
 
-
-
 export const reg = async (req, res) => {
   try {
     const errors = validationResult(req)
@@ -32,8 +30,6 @@ export const reg = async (req, res) => {
     })
 
     const user = await doc.save()
-
-    serverLog(`Успешно создан пользователь с логином ${user.login}`)
 
     const token = jwt.sign(
       {
@@ -115,6 +111,73 @@ export const getMeInfo = async (req, res) => {
     serverError(err)
     res.status(500).json({
       errorMsg: 'Ошибка получения данных о пользователе',
+    })
+  }
+}
+
+export const removeMyProfile = async (req, res) => {
+  try {
+    const userId = req.userId
+
+    UserModel.findOneAndDelete({ _id: userId })
+      .then((doc) => {
+        if (!doc) {
+          return res.status(404).json({
+            errorMsg: 'Профиль не найден',
+          })
+        }
+
+        res.json({
+          userRemoved: true,
+        })
+      })
+      .catch((err) => {
+        serverError(err)
+        res.status(500).json({
+          errorMsg: 'Не удалось удалить профиль',
+        })
+      })
+  } catch (err) {
+    serverError(err)
+    res.status(500).json({
+      errorMsg: 'Ошибка удаления профиля',
+    })
+  }
+}
+
+export const updateMyProfile = async (req, res) => {
+  try {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      return res.status(400).json(errors.array())
+    }
+    const userId = req.userId
+
+    // hashing password
+    const password = req.body.password
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassword = await bcrypt.hash(password, salt)
+
+    await UserModel.updateOne(
+      { _id: userId },
+      {
+        login: req.body.login,
+        passwordHash: hashedPassword,
+        name: req.body.name,
+        surname: req.body.surname,
+        dateOfBirth: req.body.dateOfBirth,
+        city: req.body.city,
+        branch: req.body.branch,
+      }
+    )
+
+    res.json({
+      edited: true,
+    })
+  } catch (err) {
+    serverError(err)
+    res.status(500).json({
+      errorMsg: 'Ошибка редактирования профиля',
     })
   }
 }

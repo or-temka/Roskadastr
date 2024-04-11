@@ -27,11 +27,15 @@ app.post('/user/reg', registerValidation, UserController.reg)
 app.post('/user/login', loginValidation, UserController.login)
 // show user profile
 app.get('/user/me', checkAuth, UserController.getMeInfo)
-
 // user edit his profile
-
+app.patch(
+  '/user/updateMe',
+  checkAuth,
+  registerValidation,
+  UserController.updateMyProfile
+)
 // user delete his profile
-
+app.delete('/user/removeMe', checkAuth, UserController.removeMyProfile)
 //#endregion
 
 // Просмотр моих услуг
