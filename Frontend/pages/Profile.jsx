@@ -1,14 +1,48 @@
-import { StyleSheet, View, ScrollView, Linking } from 'react-native'
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  Linking,
+  ActivityIndicator,
+} from 'react-native'
 import gStyles from '../gStyles'
 import ProfileBranch from '../components/ProfileBranch'
 import ProfileHeader from '../components/ProfileHeader'
 import ButtonForm from '../components/ButtonForm'
 import { colorStyles } from '../variables'
 import SplitLine from '../components/SplitLine'
-import { removeToken } from '../utils/userTokenStorage'
+import { getUserToken, removeToken } from '../utils/userTokenStorage'
 import PageForUser from './PageForUser'
+import axios from '../axios'
+import { useEffect, useState } from 'react'
 
 export default function Profile({ navigation }) {
+  const [isLoading, setIsLoading] = useState(true)
+
+  const [username, setUsername] = useState('')
+  const [userCity, setUserCity] = useState('')
+
+  // Запрос данных для аккаунта
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const { data } = await axios.get('/user/me', {
+          headers: {
+            Authorization: await getUserToken(),
+          },
+        })
+
+        setUsername(data.name + ' ' + data.surname)
+        setUserCity(data.city)
+
+        setIsLoading(false)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    fetchUserData()
+  }, [])
+
   const exitFromAccountHandler = async () => {
     if (await removeToken()) {
       navigation.reset({
@@ -17,12 +51,29 @@ export default function Profile({ navigation }) {
     }
   }
 
+  if (isLoading) {
+    return (
+      <PageForUser navigation={navigation}>
+        <View
+          style={{
+            flex: 1,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <ActivityIndicator size="large" />
+        </View>
+      </PageForUser>
+    )
+  }
+
   return (
     <PageForUser navigation={navigation}>
       <ScrollView style={styles.profile}>
         <ProfileHeader
-          username="Наталья Волкова"
-          city="г. Сыктыкар"
+          username={username}
+          city={`г. ${userCity}`}
           style={styles.profile__item}
           navigation={navigation}
         />

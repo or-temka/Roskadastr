@@ -166,7 +166,7 @@ export default function EditProfile({ navigation }) {
 
   if (isLoadning) {
     return (
-      <PageForUser>
+      <PageForUser navigation={navigation}>
         <View
           style={{
             flex: 1,
