@@ -12,10 +12,14 @@ import SplitLine from '../components/SplitLine'
 import Input from '../components/Input'
 import { useState, useEffect } from 'react'
 import Button from '../components/Button'
+import axios from '../axios'
+import { getUserToken, setUserToken } from '../utils/userTokenStorage'
 
 export default function SignIn({ navigation }) {
+
   const [loginInput, setLoginInput] = useState('')
   const [passwordInput, setPasswordInput] = useState('')
+  const [isWrongPass, setIsWrongPass] = useState(false)
 
   const [disabledEnterBtn, setDisabledEnterBtn] = useState(true)
 
@@ -27,6 +31,21 @@ export default function SignIn({ navigation }) {
       setDisabledEnterBtn(true)
     }
   }, [loginInput, passwordInput])
+
+  const enterAccountHandler = async () => {
+    try {
+      const { data } = await axios.post('/user/login', {
+        login: loginInput,
+        password: passwordInput,
+      })
+
+      const token = data.token
+      setIsWrongPass(false)
+      setUserToken(token)
+    } catch (err) {
+      setIsWrongPass(true)
+    }
+  }
 
   return (
     <Page navigation={navigation}>
@@ -50,10 +69,16 @@ export default function SignIn({ navigation }) {
             style={styles.signIn__input}
           />
           <SplitLine style={styles.signIn__splitLine} />
+          {isWrongPass && (
+            <Text style={[gStyles.text, styles.signIn__wrongPass]}>
+              Неверный логин или пароль
+            </Text>
+          )}
           <Button
             title="Войти"
             isFocusBtn={disabledEnterBtn ? false : true}
             isDisabled={disabledEnterBtn}
+            onPress={enterAccountHandler}
           />
           <TouchableOpacity style={styles.signIn__forgot}>
             <Text style={[gStyles.text, styles.signIn__forgotText]}>
@@ -120,5 +145,9 @@ const styles = StyleSheet.create({
   },
   signIn__bottomLink: {
     color: colorStyles.grey,
+  },
+  signIn__wrongPass: {
+    color: colorStyles.text.error,
+    marginBottom: 10,
   },
 })

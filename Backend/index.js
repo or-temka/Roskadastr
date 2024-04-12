@@ -2,6 +2,7 @@ import { DB_LOGIN, DB_PASSWORD } from './PASSWORDS.js' //You should create your 
 
 import express from 'express'
 import mongoose from 'mongoose'
+import cors from 'cors'
 
 import { serverError, serverLog } from './utils/serverLog.js'
 import {
@@ -26,6 +27,7 @@ const app = express()
 const PORT = 4000
 
 app.use(express.json())
+app.use(cors())
 
 //#region User
 // Registration user (sign up)
