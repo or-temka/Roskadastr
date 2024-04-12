@@ -13,7 +13,7 @@ import Input from '../components/Input'
 import { useState, useEffect } from 'react'
 import Button from '../components/Button'
 import axios from '../axios'
-import { getUserToken, setUserToken } from '../utils/userTokenStorage'
+import { setUserToken } from '../utils/userTokenStorage'
 
 export default function SignIn({ navigation }) {
 

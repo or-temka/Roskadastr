@@ -23,7 +23,7 @@ export const registerValidation = [
       max: 30,
     })
     .isString(),
-  body('dateOfBirth', 'Дат должена содержать от 6 до 10 символов')
+  body('dateOfBirth', 'Дата рождения должна содержать от 6 до 10 символов')
     .optional()
     .isLength({ min: 6, max: 10 }),
   body('city', 'Название города должно содержать от 2 до 50 символов')

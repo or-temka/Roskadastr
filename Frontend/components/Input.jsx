@@ -1,7 +1,7 @@
 import { Platform, StyleSheet, Text, TextInput, View } from 'react-native'
 import gStyles from '../gStyles'
 import { colorStyles, typography } from '../variables'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function Input({
   style,
@@ -15,6 +15,10 @@ export default function Input({
   multiline = false,
 }) {
   const [errorTextValue, setErrorTextValue] = useState(errorText)
+
+  useEffect(() => {
+    setErrorTextValue(errorText)
+  }, [errorText])
 
   function changeInputTextHandler(value) {
     setErrorTextValue('')

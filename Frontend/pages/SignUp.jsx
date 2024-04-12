@@ -14,6 +14,8 @@ import { useEffect, useState } from 'react'
 import Button from '../components/Button'
 import SplitLineText from '../components/SplitLineText'
 import InputCheckbox from '../components/InputCheckbox'
+import axios from '../axios'
+import { setUserToken } from '../utils/userTokenStorage'
 
 export default function SignUp({ navigation }) {
   const [loginInput, setLoginInput] = useState('')
@@ -26,7 +28,20 @@ export default function SignUp({ navigation }) {
   const [confirmPasswordInput, setConfirmPasswordInput] = useState('')
   const [policyCheckbox, setPolicyCheckbox] = useState(false)
 
+  const [errorsInput, setErrorsInput] = useState({
+    login: '',
+    name: '',
+    surname: '',
+    dateOfBirth: '',
+    city: '',
+    branch: '',
+    password: '',
+    confirmPassword: '',
+  })
+
   const [disabledEnterBtn, setDisabledEnterBtn] = useState(true)
+
+  const [isWrongData, setIsWrongData] = useState(false)
 
   useEffect(() => {
     const condition =
@@ -56,6 +71,49 @@ export default function SignUp({ navigation }) {
     policyCheckbox,
   ])
 
+  const createAccount = async () => {
+    try {
+      setDisabledEnterBtn(true)
+      const { data } = await axios.post('/user/reg', {
+        login: loginInput,
+        password: passwordInput,
+        name: nameInput,
+        surname: surnameInput,
+        dateOfBirth: dateBirthInput,
+        city: cityInput,
+        branch: branchInput,
+      })
+
+      if (passwordInput !== confirmPasswordInput) {
+        return setErrorsInput({
+          ...errorsInput,
+          confirmPassword: 'Пароль не совпадает',
+        })
+      }
+
+      const token = data.token
+
+      setIsWrongData(false)
+      setUserToken(token)
+      navigation.reset({
+        routes: [{ name: 'profile' }],
+      })
+      setDisabledEnterBtn(false)
+    } catch (err) {
+      setDisabledEnterBtn(false)
+      console.log(err)
+      const errors = {}
+      err.response.data.map((errorObj) => {
+        errors[errorObj.path] = errorObj.msg
+      })
+      setErrorsInput({
+        ...errorsInput,
+        ...errors,
+      })
+      setIsWrongData(true)
+    }
+  }
+
   return (
     <Page navigation={navigation}>
       <ScrollView style={styles.signUp}>
@@ -70,32 +128,60 @@ export default function SignUp({ navigation }) {
           />
           <Input
             title="Логин"
-            onChangeText={(value) => setLoginInput(value)}
+            onChangeText={(value) => {
+              setLoginInput(value)
+              setErrorsInput({
+                ...errorsInput,
+                login: '',
+              })
+            }}
             placeholder="Введите логин"
             value={loginInput}
             style={styles.signUp__input}
+            errorText={errorsInput.login}
           />
           <Input
             title="Имя"
-            onChangeText={(value) => setNameInput(value)}
+            onChangeText={(value) => {
+              setNameInput(value)
+              setErrorsInput({
+                ...errorsInput,
+                name: '',
+              })
+            }}
             placeholder="Введите имя"
             value={nameInput}
             style={styles.signUp__input}
+            errorText={errorsInput.name}
           />
           <Input
             title="Фамилия"
-            onChangeText={(value) => setSurnameInput(value)}
+            onChangeText={(value) => {
+              setSurnameInput(value)
+              setErrorsInput({
+                ...errorsInput,
+                surname: '',
+              })
+            }}
             placeholder="Введите фамилию"
             value={surnameInput}
             style={styles.signUp__input}
+            errorText={errorsInput.surname}
           />
           <SplitLine style={styles.signUp__splitLine} />
           <Input
             title="Дата рождения"
-            onChangeText={(value) => setDateBirthInput(value)}
+            onChangeText={(value) => {
+              setDateBirthInput(value)
+              setErrorsInput({
+                ...errorsInput,
+                dateOfBirth: '',
+              })
+            }}
             placeholder="Введите дату рождения"
             value={dateBirthInput}
             style={styles.signUp__input}
+            errorText={errorsInput.dateOfBirth}
           />
           <Input
             title="Город"
@@ -103,6 +189,7 @@ export default function SignUp({ navigation }) {
             value={cityInput}
             style={styles.signUp__input}
             isEditable={false}
+            errorText={errorsInput.city}
           />
           <Input
             title="Филиал"
@@ -110,25 +197,45 @@ export default function SignUp({ navigation }) {
             value={branchInput}
             style={styles.signUp__input}
             isEditable={false}
+            errorText={errorsInput.branch}
           />
           <SplitLineText text="Пароль" style={styles.signUp__splitLine} />
           <Input
             title="Пароль"
-            onChangeText={(value) => setPasswordInput(value)}
+            onChangeText={(value) => {
+              setPasswordInput(value)
+              setErrorsInput({
+                ...errorsInput,
+                password: '',
+              })
+            }}
             placeholder="Введите пароль"
             isSecure={true}
             value={passwordInput}
             style={styles.signUp__input}
+            errorText={errorsInput.password}
           />
           <Input
             title="Подтверждение пароля"
-            onChangeText={(value) => setConfirmPasswordInput(value)}
+            onChangeText={(value) => {
+              setConfirmPasswordInput(value)
+              setErrorsInput({
+                ...errorsInput,
+                confirmPassword: '',
+              })
+            }}
             placeholder="Введите пароль ещё раз"
             isSecure={true}
             value={confirmPasswordInput}
             style={styles.signUp__input}
+            errorText={errorsInput.confirmPassword}
           />
           <SplitLine style={styles.signUp__splitLine} />
+          {isWrongData && (
+            <Text style={[gStyles.text, styles.signUp__wrongPass]}>
+              Неверно заполненные поля
+            </Text>
+          )}
           <InputCheckbox
             style={styles.signUp__policyCheckbox}
             text="Согласен с политикой обработки персональных данных"
@@ -138,6 +245,7 @@ export default function SignUp({ navigation }) {
             title="Создать"
             isFocusBtn={disabledEnterBtn ? false : true}
             isDisabled={disabledEnterBtn}
+            onPress={createAccount}
           />
         </View>
 
@@ -191,5 +299,8 @@ const styles = StyleSheet.create({
   },
   signUp__bottomLink: {
     color: colorStyles.grey,
+  },
+  signUp__wrongPass: {
+    color: colorStyles.text.error,
   },
 })
