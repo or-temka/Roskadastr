@@ -106,8 +106,6 @@ export default function Messages({ navigation }) {
     )
   }
 
-  
-
   return (
     <PageForUser navigation={navigation}>
       <View style={styles.messages}>

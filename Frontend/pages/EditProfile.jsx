@@ -16,7 +16,7 @@ import ButtonForm from '../components/ButtonForm'
 import ModalConfirm from '../components/ModalConfirm'
 import PageForUser from './PageForUser'
 import axios from '../axios'
-import { getUserToken } from '../utils/userTokenStorage'
+import { getUserToken, removeToken } from '../utils/userTokenStorage'
 
 export default function EditProfile({ navigation }) {
   const [loginInput, setLoginInput] = useState('')
@@ -154,9 +154,25 @@ export default function EditProfile({ navigation }) {
 
   //for modal
   const [modalVisible, setModalVisible] = useState(false)
-
+  // Подтверждение удаления аккаунта
   function confirmModalHandler() {
-    console.log('Аккаунт удален из бд')
+    const pispatchDeleteProfile = async () => {
+      try {
+        await axios.delete('/user/removeMe', {
+          headers: {
+            Authorization: await getUserToken(),
+          },
+        })
+
+        removeToken()
+        navigation.reset({
+          routes: [{ name: 'signIn' }],
+        })
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    pispatchDeleteProfile()
     setModalVisible(false)
     navigation.navigate('signIn')
   }
