@@ -54,7 +54,7 @@ export default function OneService({ navigation, style, service }) {
           {service.name}
         </Text>
         <Text style={[gStyles.smallLightText, styles.oneService__address]}>
-          {'г. ' + service.city + ', ' + service.branchAddress}
+          {service.city + ', ' + service.branchAddress}
         </Text>
       </View>
     </TouchableOpacity>

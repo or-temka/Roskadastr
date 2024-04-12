@@ -31,7 +31,10 @@ export default function Services({ navigation }) {
           },
         })
 
-        setServices(data)
+        const sortedData = [...data].sort((a, b) =>
+          a.updatedAt < b.updatedAt ? 1 : -1
+        )
+        setServices(sortedData)
 
         setIsLoading(false)
       } catch (err) {

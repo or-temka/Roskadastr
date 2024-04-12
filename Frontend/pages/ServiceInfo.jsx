@@ -1,4 +1,10 @@
-import { StyleSheet, View, ScrollView, Text } from 'react-native'
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  Text,
+  ActivityIndicator,
+} from 'react-native'
 import gStyles from '../gStyles'
 import ButtonForm from '../components/ButtonForm'
 import { colorStyles } from '../variables'
@@ -6,10 +12,52 @@ import SplitLine from '../components/SplitLine'
 import SplitLineText from '../components/SplitLineText'
 import BackButton from '../components/BackButton'
 import PageForUser from './PageForUser'
+import { useEffect, useState } from 'react'
+import axios from '../axios'
+import { getUserToken } from '../utils/userTokenStorage'
 
 export default function ServiceInfo({ navigation, route }) {
+  const [isLoading, setIsLoading] = useState(true)
+
+  const [service, setService] = useState()
+
   const { serviceId } = route.params
-  const service = services.find((service) => service.id === serviceId)
+
+  useEffect(() => {
+    const fetchUserService = async () => {
+      try {
+        const { data } = await axios.get(`/service/${serviceId}`, {
+          headers: {
+            Authorization: await getUserToken(),
+          },
+        })
+
+        setService(data)
+
+        setIsLoading(false)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    fetchUserService()
+  }, [route])
+
+  if (isLoading) {
+    return (
+      <PageForUser navigation={navigation}>
+        <View
+          style={{
+            flex: 1,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <ActivityIndicator size="large" />
+        </View>
+      </PageForUser>
+    )
+  }
 
   return (
     <PageForUser navigation={navigation}>
