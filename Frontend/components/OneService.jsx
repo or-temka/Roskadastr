@@ -3,12 +3,10 @@ import { colorStyles } from '../variables'
 import gStyles from '../gStyles'
 import services from '../data/services'
 
-export default function OneService({ navigation, style, serviceId }) {
+export default function OneService({ navigation, style, service }) {
   function pressServiceHandler() {
-    navigation.navigate('serviceInfo', { serviceId })
+    navigation.navigate('serviceInfo', { serviceId: service._id })
   }
-
-  const service = services.find((service) => service.id === serviceId)
 
   return (
     <TouchableOpacity

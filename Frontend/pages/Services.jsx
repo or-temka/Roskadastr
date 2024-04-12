@@ -1,4 +1,10 @@
-import { StyleSheet, View, ScrollView, Text } from 'react-native'
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  Text,
+  ActivityIndicator,
+} from 'react-native'
 import gStyles from '../gStyles'
 import ButtonForm from '../components/ButtonForm'
 import { colorStyles } from '../variables'
@@ -6,10 +12,52 @@ import SplitLine from '../components/SplitLine'
 import SplitLineText from '../components/SplitLineText'
 import ServiceAddButtonSVG from '../components/svg/ServiceAddButtonSVG'
 import OneService from '../components/OneService'
-import services from '../data/services'
 import PageForUser from './PageForUser'
+import { useEffect, useState } from 'react'
+import axios from '../axios'
+import { getUserToken } from '../utils/userTokenStorage'
 
 export default function Services({ navigation }) {
+  const [isLoading, setIsLoading] = useState(true)
+
+  const [services, setServices] = useState()
+
+  useEffect(() => {
+    const fetchUserServices = async () => {
+      try {
+        const { data } = await axios.get('/service', {
+          headers: {
+            Authorization: await getUserToken(),
+          },
+        })
+
+        setServices(data)
+
+        setIsLoading(false)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    fetchUserServices()
+  }, [])
+
+  if (isLoading) {
+    return (
+      <PageForUser navigation={navigation}>
+        <View
+          style={{
+            flex: 1,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <ActivityIndicator size="large" />
+        </View>
+      </PageForUser>
+    )
+  }
+
   return (
     <PageForUser navigation={navigation}>
       <ScrollView>
@@ -25,14 +73,20 @@ export default function Services({ navigation }) {
             onPress={() => navigation.navigate('chooseServiceForAdd')}
           />
           <SplitLineText text="Мои услуги" style={styles.services__splitLine} />
-          {services.map((service) => (
-            <OneService
-              serviceId={service.id}
-              style={styles.services__oneService}
-              navigation={navigation}
-              key={service.id}
-            />
-          ))}
+          {services.length ? (
+            services.map((service) => (
+              <OneService
+                service={service}
+                style={styles.services__oneService}
+                navigation={navigation}
+                key={service._id}
+              />
+            ))
+          ) : (
+            <Text style={[gStyles.lightParagraph, styles.services__emptyText]}>
+              Пока что вы не добавили ни одной услуги
+            </Text>
+          )}
         </View>
         <View style={gStyles.emptyField}></View>
       </ScrollView>
@@ -51,5 +105,10 @@ const styles = StyleSheet.create({
   },
   services__oneService: {
     marginVertical: 8,
+  },
+  services__emptyText: {
+    textAlign: 'center',
+    marginHorizontal: 40,
+    marginVertical: 20,
   },
 })
