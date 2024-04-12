@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose, { Schema } from 'mongoose'
 
 const UserSchema = new mongoose.Schema(
   {
@@ -27,6 +27,14 @@ const UserSchema = new mongoose.Schema(
     branch: {
       type: String,
       required: true,
+    },
+    services: {
+      type: Array,
+      default: [],
+    },
+    messages: {
+      type: Array,
+      default: [],
     },
   },
   {

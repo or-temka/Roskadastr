@@ -1,12 +1,17 @@
-import { DB_LOGIN, DB_PASSWORD, TOKEN_KEY } from './PASSWORDS.js' //You should create your file with datas
+import { DB_LOGIN, DB_PASSWORD } from './PASSWORDS.js' //You should create your file with datas
 
 import express from 'express'
 import mongoose from 'mongoose'
 
 import { serverError, serverLog } from './utils/serverLog.js'
-import { loginValidation, registerValidation } from './validations.js'
+import {
+  createServiceValidation,
+  loginValidation,
+  registerValidation,
+} from './validations.js'
 import checkAuth from './utils/checkAuth.js'
 import * as UserController from './controllers/UserController.js'
+import * as ServiceController from './controllers/ServicesController.js'
 
 mongoose
   .connect(
@@ -38,18 +43,31 @@ app.patch(
 app.delete('/user/removeMe', checkAuth, UserController.removeMyProfile)
 //#endregion
 
-// Просмотр моих услуг
-// Просмотр моей услуги
-// Добавление услуги
+//#region UserServices
+// get my services
+app.get(
+  '/service',
+  checkAuth,
+
+  ServiceController.getMyServices
+)
+// get my service
+app.get('/service/:id', checkAuth, ServiceController.getMyOneService)
+// creating a new service for user
+app.post(
+  '/service',
+  checkAuth,
+  createServiceValidation,
+  ServiceController.addMyService
+)
 // Редактировани услуги
-
-// Просмотр типов услуг
-// Просмотр типа услуги
-//
-
-// Просмотр всех новостей
-
-// Просмотр всех вакансий
+app.patch(
+  '/service/:id',
+  checkAuth,
+  createServiceValidation,
+  ServiceController.editMyService
+)
+//#endregion
 
 // Просмотр моих сообщений
 // Написание моего сообщения
