@@ -109,3 +109,10 @@ export const createServiceValidation = [
     })
     .isString(),
 ]
+
+export const sendMessageValidation = [
+  body('iIsSender', 'Отправитель ли вы должно быть true или false').isBoolean(),
+  body('messageText', 'Сообщение должно содержать от 1 до 1000 символов')
+    .isLength({ min: 1, max: 1000 })
+    .isString(),
+]

@@ -8,10 +8,12 @@ import {
   createServiceValidation,
   loginValidation,
   registerValidation,
+  sendMessageValidation,
 } from './validations.js'
 import checkAuth from './utils/checkAuth.js'
 import * as UserController from './controllers/UserController.js'
 import * as ServiceController from './controllers/ServicesController.js'
+import * as UserMessagesController from './controllers/UserMessagesController.js'
 
 mongoose
   .connect(
@@ -60,7 +62,7 @@ app.post(
   createServiceValidation,
   ServiceController.addMyService
 )
-// Редактировани услуги
+// edit my one service
 app.patch(
   '/service/:id',
   checkAuth,
@@ -69,8 +71,17 @@ app.patch(
 )
 //#endregion
 
-// Просмотр моих сообщений
-// Написание моего сообщения
+//#region messages
+// get my msgs
+app.get('/messages', checkAuth, UserMessagesController.getMessages)
+// create msg
+app.post(
+  '/messages',
+  checkAuth,
+  sendMessageValidation,
+  UserMessagesController.sendMessage
+)
+//#endregion
 
 app.listen(PORT, (err) => {
   if (err) {
