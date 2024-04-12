@@ -101,17 +101,35 @@ export default function ServiceInfo({ navigation, route }) {
               г. {service.city}, {service.branchAddress}
             </Text>
           </Text>
-          <Text
-            style={[
-              styles.serviceInfo__textField,
-              styles.serviceInfo__textValue,
-            ]}
-          >
-            <Text style={gStyles.lightText}>Дата проведения: </Text>
-            <Text style={gStyles.text}>{service.date}</Text>
+          {service.date && (
+            <Text
+              style={[
+                styles.serviceInfo__textField,
+                styles.serviceInfo__textValue,
+              ]}
+            >
+              <Text style={gStyles.lightText}>Дата проведения: </Text>
+              <Text style={gStyles.text}>{service.date}</Text>
+            </Text>
+          )}
+
+          <Text style={[styles.serviceInfo__textField, gStyles.lightText]}>
+            Дата создания:{' '}
+            {`${new Date(service.createdAt)
+              .getDate()
+              .toString()
+              .padStart(2, '0')}.${(new Date(service.createdAt).getMonth() + 1)
+              .toString()
+              .padStart(2, '0')}.${new Date(service.createdAt).getFullYear()}`}
           </Text>
           <Text style={[styles.serviceInfo__textField, gStyles.lightText]}>
-            Дата создания: {service.dateCreate}
+            Дата последнего обновления:{' '}
+            {`${new Date(service.updatedAt)
+              .getDate()
+              .toString()
+              .padStart(2, '0')}.${(new Date(service.updatedAt).getMonth() + 1)
+              .toString()
+              .padStart(2, '0')}.${new Date(service.updatedAt).getFullYear()}`}
           </Text>
           <SplitLineText
             text="Данные от сотрудников"
@@ -158,6 +176,7 @@ export default function ServiceInfo({ navigation, route }) {
           <ButtonForm
             title="Переписка с ведомством"
             style={styles.serviceInfo__buttonForm}
+            onPress={() => navigation.navigate('messages')}
           />
           {service.status === 'active' && (
             <ButtonForm

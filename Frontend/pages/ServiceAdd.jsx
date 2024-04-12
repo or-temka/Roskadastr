@@ -13,13 +13,17 @@ import serviceTypes from '../data/serviceTypes'
 import ModalConfirm from '../components/ModalConfirm'
 import { useState } from 'react'
 import PageForUser from './PageForUser'
+import { getUserToken } from '../utils/userTokenStorage'
+import axios from '../axios'
 
 export default function ServiceAdd({ navigation, route }) {
   const [modalVisible, setModalVisible] = useState(false)
   const [choosedToDoId, setChoosedToDoId] = useState()
 
   function confirmModalHandler(toDoId) {
-    console.log(toDoId)
+    // console.log(toDoId);
+    // console.log(serviceType);
+    createNewService(toDoId)
     setModalVisible(false)
   }
   function cancelModalHandler() {
@@ -35,6 +39,37 @@ export default function ServiceAdd({ navigation, route }) {
   const serviceType = serviceTypes.find(
     (serviceType) => serviceType.id === serviceTypeId
   )
+
+  const createNewService = async (toDoId) => {
+    try {
+      const serviceToDoText = serviceType.toDo[toDoId - 1].text
+      const serviceTypeName = serviceType.name
+
+      await axios.post(
+        '/service',
+        {
+          name: `${serviceTypeName} [${serviceToDoText}]`,
+          status: 'active',
+          branchAddress: 'ул. Оплеснина, д. 7',
+          city: 'г. Сыктывкар',
+          toHave: 'Паспорт',
+          howToGo:
+            'Здание находится на пересечение ул. Оплеснина и ул. Дубинина',
+        },
+        {
+          headers: {
+            Authorization: await getUserToken(),
+          },
+        }
+      )
+
+      navigation.reset({
+        routes: [{ name: 'services' }],
+      })
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   return (
     <PageForUser navigation={navigation}>

@@ -45,7 +45,8 @@ export default function OneService({ navigation, style, service }) {
         </View>
         <View style={styles.oneService__smallData}>
           <Text style={gStyles.smallLightText}>
-            {service.date + '    каб. ' + service.cabinet}
+            {(service.date ? service.date : '') +
+              (service.cabinet ? '    каб. ' + service.cabinet : '')}
           </Text>
         </View>
       </View>
