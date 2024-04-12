@@ -1,5 +1,4 @@
 import { StyleSheet, View, ScrollView, Text } from 'react-native'
-import Page from './Page'
 import gStyles from '../gStyles'
 import ButtonForm from '../components/ButtonForm'
 import { colorStyles } from '../variables'
@@ -8,10 +7,11 @@ import SplitLineText from '../components/SplitLineText'
 import ServiceAddButtonSVG from '../components/svg/ServiceAddButtonSVG'
 import OneService from '../components/OneService'
 import services from '../data/services'
+import PageForUser from './PageForUser'
 
 export default function Services({ navigation }) {
   return (
-    <Page navigation={navigation}>
+    <PageForUser navigation={navigation}>
       <ScrollView>
         <View style={styles.services}>
           <Text style={gStyles.h4}>Услуги</Text>
@@ -36,7 +36,7 @@ export default function Services({ navigation }) {
         </View>
         <View style={gStyles.emptyField}></View>
       </ScrollView>
-    </Page>
+    </PageForUser>
   )
 }
 

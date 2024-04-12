@@ -7,7 +7,6 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native'
-import Page from './Page'
 import gStyles from '../gStyles'
 import { colorStyles } from '../variables'
 import { useEffect, useRef, useState } from 'react'
@@ -15,6 +14,7 @@ import Input from '../components/Input'
 import SendMessageSVG from '../components/svg/SendMessageSVG'
 import messagesArray from '../data/messages'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import PageForUser from './PageForUser'
 
 export default function Messages({ navigation }) {
   const [messages, setMessages] = useState(messagesArray)
@@ -69,7 +69,7 @@ export default function Messages({ navigation }) {
   scrollToBottom()
 
   return (
-    <Page navigation={navigation}>
+    <PageForUser navigation={navigation}>
       <View style={styles.messages}>
         {/* Msg send Input and button */}
         <KeyboardAvoidingView
@@ -133,7 +133,7 @@ export default function Messages({ navigation }) {
           <View style={{ height: 40 }}></View>
         </ScrollView>
       </View>
-    </Page>
+    </PageForUser>
   )
 }
 

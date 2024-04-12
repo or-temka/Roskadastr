@@ -1,5 +1,4 @@
 import { StyleSheet, View, ScrollView, Text } from 'react-native'
-import Page from './Page'
 import gStyles from '../gStyles'
 import { colorStyles } from '../variables'
 import SplitLine from '../components/SplitLine'
@@ -9,6 +8,7 @@ import Button from '../components/Button'
 import SplitLineText from '../components/SplitLineText'
 import ButtonForm from '../components/ButtonForm'
 import ModalConfirm from '../components/ModalConfirm'
+import PageForUser from './PageForUser'
 
 export default function EditProfile({ navigation }) {
   const [loginInput, setLoginInput] = useState('')
@@ -64,7 +64,7 @@ export default function EditProfile({ navigation }) {
   }
 
   return (
-    <Page navigation={navigation}>
+    <PageForUser navigation={navigation}>
       <ScrollView style={styles.editProfile}>
         <View style={styles.editProfile__container}>
           <Text style={gStyles.h4}>Редактирование профиля</Text>
@@ -164,7 +164,7 @@ export default function EditProfile({ navigation }) {
           cancelHandler={cancelModalHandler}
         />
       )}
-    </Page>
+    </PageForUser>
   )
 }
 

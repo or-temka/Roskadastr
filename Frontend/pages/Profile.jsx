@@ -1,15 +1,24 @@
 import { StyleSheet, View, ScrollView, Linking } from 'react-native'
-import Page from './Page'
 import gStyles from '../gStyles'
 import ProfileBranch from '../components/ProfileBranch'
 import ProfileHeader from '../components/ProfileHeader'
 import ButtonForm from '../components/ButtonForm'
 import { colorStyles } from '../variables'
 import SplitLine from '../components/SplitLine'
+import { removeToken } from '../utils/userTokenStorage'
+import PageForUser from './PageForUser'
 
 export default function Profile({ navigation }) {
+  const exitFromAccountHandler = async () => {
+    if (await removeToken()) {
+      navigation.reset({
+        routes: [{ name: 'notSignIn' }],
+      })
+    }
+  }
+
   return (
-    <Page navigation={navigation}>
+    <PageForUser navigation={navigation}>
       <ScrollView style={styles.profile}>
         <ProfileHeader
           username="Наталья Волкова"
@@ -31,26 +40,22 @@ export default function Profile({ navigation }) {
           />
           <ButtonForm
             title="Официальный сайт"
-            onPress={() =>
-              Linking.openURL('https://kadastr.ru/')
-            }
+            onPress={() => Linking.openURL('https://kadastr.ru/')}
           />
           <ButtonForm
             title="Официальная группа во Вконтакте"
-            onPress={() =>
-              Linking.openURL('https://vk.com/kadastr_ru')
-            }
+            onPress={() => Linking.openURL('https://vk.com/kadastr_ru')}
           />
           <SplitLine />
           <ButtonForm
             title="Выйти"
             textColor={colorStyles.text.error}
-            onPress={() => navigation.navigate('notSignIn')}
+            onPress={exitFromAccountHandler}
           />
         </View>
         <View style={gStyles.emptyField}></View>
       </ScrollView>
-    </Page>
+    </PageForUser>
   )
 }
 

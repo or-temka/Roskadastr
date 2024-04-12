@@ -42,6 +42,9 @@ export default function SignIn({ navigation }) {
       const token = data.token
       setIsWrongPass(false)
       setUserToken(token)
+      navigation.reset({
+        routes: [{ name: 'profile' }],
+      })
     } catch (err) {
       setIsWrongPass(true)
     }

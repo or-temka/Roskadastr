@@ -32,7 +32,7 @@ export default function Navigate() {
         })}
       >
         {/* Main pages (down menu) */}
-        <Tab.Screen name="news" component={News} />
+        <Tab.Screen name="news" component={News}/>
         <Tab.Screen name="services" component={Services} />
         <Tab.Screen name="messages" component={Messages} />
         <Tab.Screen name="profile" component={Profile} />

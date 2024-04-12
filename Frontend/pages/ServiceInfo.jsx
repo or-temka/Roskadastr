@@ -1,18 +1,18 @@
 import { StyleSheet, View, ScrollView, Text } from 'react-native'
-import Page from './Page'
 import gStyles from '../gStyles'
 import ButtonForm from '../components/ButtonForm'
 import { colorStyles } from '../variables'
 import SplitLine from '../components/SplitLine'
 import SplitLineText from '../components/SplitLineText'
 import BackButton from '../components/BackButton'
+import PageForUser from './PageForUser'
 
 export default function ServiceInfo({ navigation, route }) {
   const { serviceId } = route.params
   const service = services.find((service) => service.id === serviceId)
 
   return (
-    <Page navigation={navigation}>
+    <PageForUser navigation={navigation}>
       <ScrollView>
         <View style={styles.serviceInfo}>
           <BackButton navigation={navigation} backNamePage="services" />
@@ -121,7 +121,7 @@ export default function ServiceInfo({ navigation, route }) {
         </View>
         <View style={{ marginBottom: 90 }}></View>
       </ScrollView>
-    </Page>
+    </PageForUser>
   )
 }
 

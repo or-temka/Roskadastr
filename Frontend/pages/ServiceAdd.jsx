@@ -5,7 +5,6 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native'
-import Page from './Page'
 import gStyles from '../gStyles'
 import { colorStyles } from '../variables'
 import SplitLine from '../components/SplitLine'
@@ -13,6 +12,7 @@ import BackButton from '../components/BackButton'
 import serviceTypes from '../data/serviceTypes'
 import ModalConfirm from '../components/ModalConfirm'
 import { useState } from 'react'
+import PageForUser from './PageForUser'
 
 export default function ServiceAdd({ navigation, route }) {
   const [modalVisible, setModalVisible] = useState(false)
@@ -37,7 +37,7 @@ export default function ServiceAdd({ navigation, route }) {
   )
 
   return (
-    <Page navigation={navigation}>
+    <PageForUser navigation={navigation}>
       <ScrollView>
         <View style={styles.serviceAdd}>
           <BackButton
@@ -82,7 +82,7 @@ export default function ServiceAdd({ navigation, route }) {
           cancelHandler={cancelModalHandler}
         />
       )}
-    </Page>
+    </PageForUser>
   )
 }
 
