@@ -74,6 +74,13 @@ export default function SignUp({ navigation }) {
   const createAccount = async () => {
     try {
       setDisabledEnterBtn(true)
+      if (passwordInput !== confirmPasswordInput) {
+        return setErrorsInput({
+          ...errorsInput,
+          confirmPassword: 'Пароль не совпадает',
+        })
+      }
+
       const { data } = await axios.post('/user/reg', {
         login: loginInput,
         password: passwordInput,
@@ -83,13 +90,6 @@ export default function SignUp({ navigation }) {
         city: cityInput,
         branch: branchInput,
       })
-
-      if (passwordInput !== confirmPasswordInput) {
-        return setErrorsInput({
-          ...errorsInput,
-          confirmPassword: 'Пароль не совпадает',
-        })
-      }
 
       const token = data.token
 

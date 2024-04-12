@@ -10,6 +10,7 @@ import {
   loginValidation,
   registerValidation,
   sendMessageValidation,
+  updateProfileValidation,
 } from './validations.js'
 import checkAuth from './utils/checkAuth.js'
 import * as UserController from './controllers/UserController.js'
@@ -40,7 +41,7 @@ app.get('/user/me', checkAuth, UserController.getMeInfo)
 app.patch(
   '/user/updateMe',
   checkAuth,
-  registerValidation,
+  updateProfileValidation,
   UserController.updateMyProfile
 )
 // user delete his profile
