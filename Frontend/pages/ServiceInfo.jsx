@@ -80,6 +80,8 @@ export default function ServiceInfo({ navigation, route }) {
                   ? styles.serviceInfo__status_active
                   : service.status === 'done'
                   ? styles.serviceInfo__status_done
+                  : service.status === 'pending'
+                  ? styles.serviceInfo__status_pending
                   : styles.serviceInfo__status_cancel,
               ]}
             >
@@ -87,6 +89,8 @@ export default function ServiceInfo({ navigation, route }) {
                 ? 'Активная'
                 : service.status === 'done'
                 ? 'Завершена'
+                : service.status === 'pending'
+                ? 'На подтверждении'
                 : 'Отменена'}
             </Text>
           </Text>
@@ -178,10 +182,10 @@ export default function ServiceInfo({ navigation, route }) {
             style={styles.serviceInfo__buttonForm}
             onPress={() => navigation.navigate('messages')}
           />
-          {service.status === 'active' && (
+          {(service.status === 'active' || service.status === 'pending') && (
             <ButtonForm
               textColor={colorStyles.text.error}
-              title="Отмена"
+              title="Отменить"
               style={styles.serviceInfo__buttonForm}
             />
           )}
@@ -210,6 +214,7 @@ const styles = StyleSheet.create({
   },
   serviceInfo__status_done: { color: colorStyles.text.text },
   serviceInfo__status_cancel: { color: colorStyles.text.error },
+  serviceInfo__status_pending: { color: colorStyles.text.warning },
   serviceInfo__textField: {
     marginVertical: 5,
   },

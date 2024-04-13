@@ -15,6 +15,7 @@ import { useState } from 'react'
 import PageForUser from './PageForUser'
 import { getUserToken } from '../utils/userTokenStorage'
 import axios from '../axios'
+import { v4 as uuidv4 } from 'uuid'
 
 export default function ServiceAdd({ navigation, route }) {
   const [modalVisible, setModalVisible] = useState(false)
@@ -40,6 +41,34 @@ export default function ServiceAdd({ navigation, route }) {
     (serviceType) => serviceType.id === serviceTypeId
   )
 
+  //Отправка сообщения об успешном создании услуги в сообщения
+  const sendMsgFromCompany = (serviceName) => {
+    const newMsg = {
+      id: uuidv4(),
+      iIsSender: false,
+      messageText: `Новая услуга '${serviceName}' успешно добавлена, сейчас она находится на подтверждении. Дождитесь, пока статус услуги изменится на 'Активная'.`,
+    }
+    const disptachMessageServer = async () => {
+      try {
+        return await axios.post(
+          '/messages',
+          {
+            iIsSender: newMsg.iIsSender,
+            messageText: newMsg.messageText,
+          },
+          {
+            headers: {
+              Authorization: await getUserToken(),
+            },
+          }
+        )
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    disptachMessageServer()
+  }
+
   const createNewService = async (toDoId) => {
     try {
       const serviceToDoText = serviceType.toDo[toDoId - 1].text
@@ -49,7 +78,7 @@ export default function ServiceAdd({ navigation, route }) {
         '/service',
         {
           name: `${serviceTypeName} [${serviceToDoText}]`,
-          status: 'active',
+          status: 'pending',
           branchAddress: 'ул. Оплеснина, д. 7',
           city: 'г. Сыктывкар',
           toHave: 'Паспорт',
@@ -63,8 +92,10 @@ export default function ServiceAdd({ navigation, route }) {
         }
       )
 
+      await sendMsgFromCompany(`${serviceTypeName} [${serviceToDoText}]`)
+
       navigation.reset({
-        routes: [{ name: 'services' }],
+        routes: [{ name: 'messages' }],
       })
     } catch (err) {
       console.log(err)

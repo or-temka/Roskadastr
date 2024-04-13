@@ -22,6 +22,8 @@ export default function OneService({ navigation, style, service }) {
                 ? ''
                 : service.status === 'done'
                 ? styles.oneService__activityCircle_done
+                : service.status === 'pending'
+                ? styles.oneService__activityCircle_pending
                 : styles.oneService__activityCircle_cancel,
             ]}
           ></View>
@@ -33,6 +35,8 @@ export default function OneService({ navigation, style, service }) {
                 ? ''
                 : service.status === 'done'
                 ? styles.oneService__activityText_done
+                : service.status === 'pending'
+                ? styles.oneService__activityText_pending
                 : styles.oneService__activityText_cancel,
             ]}
           >
@@ -40,6 +44,8 @@ export default function OneService({ navigation, style, service }) {
               ? 'Активная'
               : service.status === 'done'
               ? 'Завершена'
+              : service.status === 'pending'
+              ? 'На подтверждении'
               : 'Отменена'}
           </Text>
         </View>
@@ -96,6 +102,9 @@ const styles = StyleSheet.create({
   oneService__activityCircle_cancel: {
     backgroundColor: colorStyles.text.error,
   },
+  oneService__activityCircle_pending: {
+    backgroundColor: colorStyles.text.warning,
+  },
   oneService__activityText: {
     color: colorStyles.text.succes,
   },
@@ -104,6 +113,9 @@ const styles = StyleSheet.create({
   },
   oneService__activityText_cancel: {
     color: colorStyles.text.error,
+  },
+  oneService__activityText_pending: {
+    color: colorStyles.text.warning,
   },
   oneService__smallData: {
     display: 'flex',
