@@ -42,6 +42,29 @@ export default function ServiceInfo({ navigation, route }) {
     fetchUserService()
   }, [route])
 
+  const cancelingServiceHandler = async () => {
+    try {
+      await axios.patch(
+        `/service/${serviceId}`,
+        {
+          ...service,
+          status: 'cancel',
+        },
+        {
+          headers: {
+            Authorization: await getUserToken(),
+          },
+        }
+      )
+
+      navigation.reset({
+        routes: [{ name: 'serviceInfo', params: { serviceId } }],
+      })
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   if (isLoading) {
     return (
       <PageForUser navigation={navigation}>
@@ -187,6 +210,7 @@ export default function ServiceInfo({ navigation, route }) {
               textColor={colorStyles.text.error}
               title="Отменить"
               style={styles.serviceInfo__buttonForm}
+              onPress={cancelingServiceHandler}
             />
           )}
         </View>
