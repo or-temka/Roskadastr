@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const instance = axios.create({
-  baseURL: 'http://45.12.238.189:4000',
+  baseURL: 'https://sversys.store',
 })
 
 export default instance
