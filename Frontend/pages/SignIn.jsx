@@ -16,7 +16,6 @@ import axios from '../axios'
 import { setUserToken } from '../utils/userTokenStorage'
 
 export default function SignIn({ navigation }) {
-
   const [loginInput, setLoginInput] = useState('')
   const [passwordInput, setPasswordInput] = useState('')
   const [isWrongPass, setIsWrongPass] = useState(false)
@@ -46,7 +45,8 @@ export default function SignIn({ navigation }) {
         routes: [{ name: 'profile' }],
       })
     } catch (err) {
-      setIsWrongPass(true)
+      // setIsWrongPass(true)
+      setIsWrongPass(err.message)
     }
   }
 
@@ -74,7 +74,7 @@ export default function SignIn({ navigation }) {
           <SplitLine style={styles.signIn__splitLine} />
           {isWrongPass && (
             <Text style={[gStyles.text, styles.signIn__wrongPass]}>
-              Неверный логин или пароль
+              {isWrongPass}
             </Text>
           )}
           <Button
