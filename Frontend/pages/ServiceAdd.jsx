@@ -5,7 +5,6 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native'
-import Page from './Page'
 import gStyles from '../gStyles'
 import { colorStyles } from '../variables'
 import SplitLine from '../components/SplitLine'
@@ -13,13 +12,19 @@ import BackButton from '../components/BackButton'
 import serviceTypes from '../data/serviceTypes'
 import ModalConfirm from '../components/ModalConfirm'
 import { useState } from 'react'
+import PageForUser from './PageForUser'
+import { getUserToken } from '../utils/userTokenStorage'
+import axios from '../axios'
+import { v4 as uuidv4 } from 'uuid'
 
 export default function ServiceAdd({ navigation, route }) {
   const [modalVisible, setModalVisible] = useState(false)
   const [choosedToDoId, setChoosedToDoId] = useState()
 
   function confirmModalHandler(toDoId) {
-    console.log(toDoId)
+    // console.log(toDoId);
+    // console.log(serviceType);
+    createNewService(toDoId)
     setModalVisible(false)
   }
   function cancelModalHandler() {
@@ -36,8 +41,69 @@ export default function ServiceAdd({ navigation, route }) {
     (serviceType) => serviceType.id === serviceTypeId
   )
 
+  //Отправка сообщения об успешном создании услуги в сообщения
+  const sendMsgFromCompany = (serviceName) => {
+    const newMsg = {
+      id: uuidv4(),
+      iIsSender: false,
+      messageText: `Новая услуга '${serviceName}' успешно добавлена, сейчас она находится на подтверждении. Дождитесь, пока статус услуги изменится на 'Активная'.`,
+    }
+    const disptachMessageServer = async () => {
+      try {
+        return await axios.post(
+          '/messages',
+          {
+            iIsSender: newMsg.iIsSender,
+            messageText: newMsg.messageText,
+          },
+          {
+            headers: {
+              Authorization: await getUserToken(),
+            },
+          }
+        )
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    disptachMessageServer()
+  }
+
+  const createNewService = async (toDoId) => {
+    try {
+      const serviceToDoText = serviceType.toDo[toDoId - 1].text
+      const serviceTypeName = serviceType.name
+
+      await axios.post(
+        '/service',
+        {
+          name: `${serviceTypeName} [${serviceToDoText}]`,
+          status: 'pending',
+          branchAddress: 'ул. Оплеснина, д. 7',
+          city: 'г. Сыктывкар',
+          toHave: 'Паспорт',
+          howToGo:
+            'Здание находится на пересечение ул. Оплеснина и ул. Дубинина',
+        },
+        {
+          headers: {
+            Authorization: await getUserToken(),
+          },
+        }
+      )
+
+      await sendMsgFromCompany(`${serviceTypeName} [${serviceToDoText}]`)
+
+      navigation.reset({
+        routes: [{ name: 'messages' }],
+      })
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   return (
-    <Page navigation={navigation}>
+    <PageForUser navigation={navigation}>
       <ScrollView>
         <View style={styles.serviceAdd}>
           <BackButton
@@ -82,7 +148,7 @@ export default function ServiceAdd({ navigation, route }) {
           cancelHandler={cancelModalHandler}
         />
       )}
-    </Page>
+    </PageForUser>
   )
 }
 

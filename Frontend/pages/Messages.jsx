@@ -6,58 +6,80 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
+  ActivityIndicator,
 } from 'react-native'
-import Page from './Page'
+import 'react-native-get-random-values'
 import gStyles from '../gStyles'
 import { colorStyles } from '../variables'
 import { useEffect, useRef, useState } from 'react'
 import Input from '../components/Input'
 import SendMessageSVG from '../components/svg/SendMessageSVG'
-import messagesArray from '../data/messages'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import PageForUser from './PageForUser'
+
+import { v4 as uuidv4 } from 'uuid'
+import axios from '../axios'
+import { getUserToken } from '../utils/userTokenStorage'
 
 export default function Messages({ navigation }) {
-  const [messages, setMessages] = useState(messagesArray)
+  const [isLoading, setIsLoading] = useState(true)
+
+  const [messages, setMessages] = useState()
   const [messageTextInput, setMessageTextInput] = useState('')
   if (messageTextInput === '\n') {
     setMessageTextInput('')
   }
 
-  async function loadMessages() {
-    try {
-      const savedMessages = await AsyncStorage.getItem('messages')
-      if (savedMessages) {
-        setMessages(JSON.parse(savedMessages))
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-  async function saveMessages(messagesArray) {
-    try {
-      await AsyncStorage.setItem('messages', JSON.stringify(messagesArray))
-    } catch (error) {
-      console.log(error)
-    }
-  }
   useEffect(() => {
-    loadMessages()
+    const fetchUserMessages = async () => {
+      try {
+        const { data } = await axios.get('/user/me', {
+          headers: {
+            Authorization: await getUserToken(),
+          },
+        })
+
+        setMessages(data.messages)
+
+        setIsLoading(false)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    fetchUserMessages()
   }, [])
 
   function sendMessageHandler() {
     setMessageTextInput('')
     const messagesArray = [...messages]
     const newMsg = {
-      id: messages[messages.length - 1].id + 1,
+      id: uuidv4(),
       iIsSender: true,
       messageText: messageTextInput,
     }
+    const disptachMessageServer = async () => {
+      try {
+        return await axios.post(
+          '/messages',
+          {
+            iIsSender: newMsg.iIsSender,
+            messageText: newMsg.messageText,
+          },
+          {
+            headers: {
+              Authorization: await getUserToken(),
+            },
+          }
+        )
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    disptachMessageServer()
     messagesArray.push(newMsg)
-    saveMessages(messagesArray)
     setMessages(messagesArray)
   }
 
-  useEffect(scrollToBottom, [messages])
+  useEffect(scrollToBottom, [messages, isLoading])
 
   // move to end scrollView
   const scrollViewRef = useRef()
@@ -66,10 +88,26 @@ export default function Messages({ navigation }) {
       scrollViewRef.current.scrollToEnd({ animated: true })
     }
   }
-  scrollToBottom()
+
+  if (isLoading) {
+    return (
+      <PageForUser navigation={navigation}>
+        <View
+          style={{
+            flex: 1,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <ActivityIndicator size="large" />
+        </View>
+      </PageForUser>
+    )
+  }
 
   return (
-    <Page navigation={navigation}>
+    <PageForUser navigation={navigation}>
       <View style={styles.messages}>
         {/* Msg send Input and button */}
         <KeyboardAvoidingView
@@ -133,7 +171,7 @@ export default function Messages({ navigation }) {
           <View style={{ height: 40 }}></View>
         </ScrollView>
       </View>
-    </Page>
+    </PageForUser>
   )
 }
 

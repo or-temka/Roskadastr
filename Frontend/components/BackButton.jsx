@@ -11,7 +11,11 @@ export default function BackButton({
   return (
     <TouchableOpacity
       style={styles.backButton}
-      onPress={() => navigation.navigate(backNamePage)}
+      onPress={() =>
+        navigation.reset({
+          routes: [{ name: backNamePage }],
+        })
+      }
     >
       <ArrowLeftSVG />
       <Text style={gStyles.text}>Назад</Text>

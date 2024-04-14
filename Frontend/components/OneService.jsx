@@ -3,12 +3,10 @@ import { colorStyles } from '../variables'
 import gStyles from '../gStyles'
 import services from '../data/services'
 
-export default function OneService({ navigation, style, serviceId }) {
+export default function OneService({ navigation, style, service }) {
   function pressServiceHandler() {
-    navigation.navigate('serviceInfo', { serviceId })
+    navigation.navigate('serviceInfo', { serviceId: service._id })
   }
-
-  const service = services.find((service) => service.id === serviceId)
 
   return (
     <TouchableOpacity
@@ -24,6 +22,8 @@ export default function OneService({ navigation, style, serviceId }) {
                 ? ''
                 : service.status === 'done'
                 ? styles.oneService__activityCircle_done
+                : service.status === 'pending'
+                ? styles.oneService__activityCircle_pending
                 : styles.oneService__activityCircle_cancel,
             ]}
           ></View>
@@ -35,6 +35,8 @@ export default function OneService({ navigation, style, serviceId }) {
                 ? ''
                 : service.status === 'done'
                 ? styles.oneService__activityText_done
+                : service.status === 'pending'
+                ? styles.oneService__activityText_pending
                 : styles.oneService__activityText_cancel,
             ]}
           >
@@ -42,12 +44,15 @@ export default function OneService({ navigation, style, serviceId }) {
               ? 'Активная'
               : service.status === 'done'
               ? 'Завершена'
+              : service.status === 'pending'
+              ? 'На подтверждении'
               : 'Отменена'}
           </Text>
         </View>
         <View style={styles.oneService__smallData}>
           <Text style={gStyles.smallLightText}>
-            {service.date + '    каб. ' + service.cabinet}
+            {(service.date ? service.date : '') +
+              (service.cabinet ? '    каб. ' + service.cabinet : '')}
           </Text>
         </View>
       </View>
@@ -56,7 +61,7 @@ export default function OneService({ navigation, style, serviceId }) {
           {service.name}
         </Text>
         <Text style={[gStyles.smallLightText, styles.oneService__address]}>
-          {'г. ' + service.city + ', ' + service.branchAddress}
+          {service.city + ', ' + service.branchAddress}
         </Text>
       </View>
     </TouchableOpacity>
@@ -97,6 +102,9 @@ const styles = StyleSheet.create({
   oneService__activityCircle_cancel: {
     backgroundColor: colorStyles.text.error,
   },
+  oneService__activityCircle_pending: {
+    backgroundColor: colorStyles.text.warning,
+  },
   oneService__activityText: {
     color: colorStyles.text.succes,
   },
@@ -105,6 +113,9 @@ const styles = StyleSheet.create({
   },
   oneService__activityText_cancel: {
     color: colorStyles.text.error,
+  },
+  oneService__activityText_pending: {
+    color: colorStyles.text.warning,
   },
   oneService__smallData: {
     display: 'flex',

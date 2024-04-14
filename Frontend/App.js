@@ -1,11 +1,14 @@
 import { StyleSheet, SafeAreaView } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 
 import { colorStyles } from './variables'
 
 import Navigate from './components/Navigate'
 
 export default function App() {
+
+  
+
   return (
     <SafeAreaView style={styles.container}>
       <Navigate></Navigate>

@@ -151,7 +151,20 @@ export const updateMyProfile = async (req, res) => {
     if (!errors.isEmpty()) {
       return res.status(400).json(errors.array())
     }
+
     const userId = req.userId
+
+    const user = await UserModel.findById(userId)
+    const userOldHashedPass = user._doc.passwordHash
+    const isValidPass = await bcrypt.compare(
+      req.body.oldPassword,
+      userOldHashedPass
+    )
+    if (!isValidPass) {
+      return res.status(400).json({
+        errorMsg: 'Старый пароль указан неверно',
+      })
+    }
 
     // hashing password
     const password = req.body.password

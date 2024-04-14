@@ -2,6 +2,7 @@ import { DB_LOGIN, DB_PASSWORD } from './PASSWORDS.js' //You should create your 
 
 import express from 'express'
 import mongoose from 'mongoose'
+import cors from 'cors'
 
 import { serverError, serverLog } from './utils/serverLog.js'
 import {
@@ -9,6 +10,7 @@ import {
   loginValidation,
   registerValidation,
   sendMessageValidation,
+  updateProfileValidation,
 } from './validations.js'
 import checkAuth from './utils/checkAuth.js'
 import * as UserController from './controllers/UserController.js'
@@ -26,6 +28,7 @@ const app = express()
 const PORT = 4000
 
 app.use(express.json())
+app.use(cors())
 
 //#region User
 // Registration user (sign up)
@@ -38,7 +41,7 @@ app.get('/user/me', checkAuth, UserController.getMeInfo)
 app.patch(
   '/user/updateMe',
   checkAuth,
-  registerValidation,
+  updateProfileValidation,
   UserController.updateMyProfile
 )
 // user delete his profile

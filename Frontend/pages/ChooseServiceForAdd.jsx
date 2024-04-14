@@ -1,15 +1,15 @@
 import { StyleSheet, View, ScrollView, Text } from 'react-native'
-import Page from './Page'
 import gStyles from '../gStyles'
 import { colorStyles } from '../variables'
 import SplitLine from '../components/SplitLine'
 import BackButton from '../components/BackButton'
 import OneServiceType from '../components/OneServiceType'
 import serviceTypes from '../data/serviceTypes'
+import PageForUser from './PageForUser'
 
 export default function ChooseServiceForAdd({ navigation }) {
   return (
-    <Page navigation={navigation}>
+    <PageForUser navigation={navigation}>
       <ScrollView>
         <View style={styles.chooseServiceForAdd}>
           <BackButton navigation={navigation} backNamePage="services" />
@@ -28,7 +28,7 @@ export default function ChooseServiceForAdd({ navigation }) {
         </View>
         {serviceTypes.length < 7 && <View style={{ marginBottom: 90 }}></View>}
       </ScrollView>
-    </Page>
+    </PageForUser>
   )
 }
 

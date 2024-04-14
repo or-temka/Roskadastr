@@ -1,18 +1,89 @@
-import { StyleSheet, View, ScrollView, Text } from 'react-native'
-import Page from './Page'
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  Text,
+  ActivityIndicator,
+} from 'react-native'
 import gStyles from '../gStyles'
 import ButtonForm from '../components/ButtonForm'
 import { colorStyles } from '../variables'
 import SplitLine from '../components/SplitLine'
 import SplitLineText from '../components/SplitLineText'
 import BackButton from '../components/BackButton'
+import PageForUser from './PageForUser'
+import { useEffect, useState } from 'react'
+import axios from '../axios'
+import { getUserToken } from '../utils/userTokenStorage'
 
 export default function ServiceInfo({ navigation, route }) {
+  const [isLoading, setIsLoading] = useState(true)
+
+  const [service, setService] = useState()
+
   const { serviceId } = route.params
-  const service = services.find((service) => service.id === serviceId)
+
+  useEffect(() => {
+    const fetchUserService = async () => {
+      try {
+        const { data } = await axios.get(`/service/${serviceId}`, {
+          headers: {
+            Authorization: await getUserToken(),
+          },
+        })
+
+        setService(data)
+
+        setIsLoading(false)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    fetchUserService()
+  }, [route])
+
+  const cancelingServiceHandler = async () => {
+    try {
+      await axios.patch(
+        `/service/${serviceId}`,
+        {
+          ...service,
+          status: 'cancel',
+        },
+        {
+          headers: {
+            Authorization: await getUserToken(),
+          },
+        }
+      )
+
+      navigation.reset({
+        routes: [{ name: 'serviceInfo', params: { serviceId } }],
+      })
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  if (isLoading) {
+    return (
+      <PageForUser navigation={navigation}>
+        <View
+          style={{
+            flex: 1,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <ActivityIndicator size="large" />
+        </View>
+      </PageForUser>
+    )
+  }
 
   return (
-    <Page navigation={navigation}>
+    <PageForUser navigation={navigation}>
       <ScrollView>
         <View style={styles.serviceInfo}>
           <BackButton navigation={navigation} backNamePage="services" />
@@ -32,6 +103,8 @@ export default function ServiceInfo({ navigation, route }) {
                   ? styles.serviceInfo__status_active
                   : service.status === 'done'
                   ? styles.serviceInfo__status_done
+                  : service.status === 'pending'
+                  ? styles.serviceInfo__status_pending
                   : styles.serviceInfo__status_cancel,
               ]}
             >
@@ -39,6 +112,8 @@ export default function ServiceInfo({ navigation, route }) {
                 ? 'Активная'
                 : service.status === 'done'
                 ? 'Завершена'
+                : service.status === 'pending'
+                ? 'На подтверждении'
                 : 'Отменена'}
             </Text>
           </Text>
@@ -53,17 +128,35 @@ export default function ServiceInfo({ navigation, route }) {
               г. {service.city}, {service.branchAddress}
             </Text>
           </Text>
-          <Text
-            style={[
-              styles.serviceInfo__textField,
-              styles.serviceInfo__textValue,
-            ]}
-          >
-            <Text style={gStyles.lightText}>Дата проведения: </Text>
-            <Text style={gStyles.text}>{service.date}</Text>
+          {service.date && (
+            <Text
+              style={[
+                styles.serviceInfo__textField,
+                styles.serviceInfo__textValue,
+              ]}
+            >
+              <Text style={gStyles.lightText}>Дата проведения: </Text>
+              <Text style={gStyles.text}>{service.date}</Text>
+            </Text>
+          )}
+
+          <Text style={[styles.serviceInfo__textField, gStyles.lightText]}>
+            Дата создания:{' '}
+            {`${new Date(service.createdAt)
+              .getDate()
+              .toString()
+              .padStart(2, '0')}.${(new Date(service.createdAt).getMonth() + 1)
+              .toString()
+              .padStart(2, '0')}.${new Date(service.createdAt).getFullYear()}`}
           </Text>
           <Text style={[styles.serviceInfo__textField, gStyles.lightText]}>
-            Дата создания: {service.dateCreate}
+            Дата последнего обновления:{' '}
+            {`${new Date(service.updatedAt)
+              .getDate()
+              .toString()
+              .padStart(2, '0')}.${(new Date(service.updatedAt).getMonth() + 1)
+              .toString()
+              .padStart(2, '0')}.${new Date(service.updatedAt).getFullYear()}`}
           </Text>
           <SplitLineText
             text="Данные от сотрудников"
@@ -110,18 +203,20 @@ export default function ServiceInfo({ navigation, route }) {
           <ButtonForm
             title="Переписка с ведомством"
             style={styles.serviceInfo__buttonForm}
+            onPress={() => navigation.navigate('messages')}
           />
-          {service.status === 'active' && (
+          {(service.status === 'active' || service.status === 'pending') && (
             <ButtonForm
               textColor={colorStyles.text.error}
-              title="Отмена"
+              title="Отменить"
               style={styles.serviceInfo__buttonForm}
+              onPress={cancelingServiceHandler}
             />
           )}
         </View>
         <View style={{ marginBottom: 90 }}></View>
       </ScrollView>
-    </Page>
+    </PageForUser>
   )
 }
 
@@ -143,6 +238,7 @@ const styles = StyleSheet.create({
   },
   serviceInfo__status_done: { color: colorStyles.text.text },
   serviceInfo__status_cancel: { color: colorStyles.text.error },
+  serviceInfo__status_pending: { color: colorStyles.text.warning },
   serviceInfo__textField: {
     marginVertical: 5,
   },
