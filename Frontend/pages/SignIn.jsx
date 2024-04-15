@@ -46,7 +46,7 @@ export default function SignIn({ navigation }) {
       })
     } catch (err) {
       // setIsWrongPass(true)
-      setIsWrongPass(err.message)
+      setIsWrongPass(true)
     }
   }
 
@@ -74,7 +74,7 @@ export default function SignIn({ navigation }) {
           <SplitLine style={styles.signIn__splitLine} />
           {isWrongPass && (
             <Text style={[gStyles.text, styles.signIn__wrongPass]}>
-              {isWrongPass}
+              Неверный логин или пароль
             </Text>
           )}
           <Button
