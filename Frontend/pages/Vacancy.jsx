@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, ScrollView } from 'react-native'
+import { StyleSheet, View, Text, ScrollView, Linking } from 'react-native'
 import Page from './Page'
 import gStyles from '../gStyles'
 import { useState } from 'react'
@@ -22,6 +22,9 @@ export default function Vacancy({ navigation }) {
                   price={item.price}
                   experience={item.experience}
                   employment={item.employment}
+                  onPress={() =>
+                    Linking.openURL('https://yaroslavl.hh.ru/employer/2806402')
+                  }
                 />
               </View>
             )
