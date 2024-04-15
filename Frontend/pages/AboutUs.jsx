@@ -25,9 +25,6 @@ export default function AboutUs({ navigation }) {
             <Text style={gStyles.paragraph}>
               г. Сыктывкар, ул. Оплеснина, д. 7
             </Text>
-            <Text style={gStyles.paragraph}>
-              г. Сыктывкар, ул. Покровский бульвар, д. 6
-            </Text>
           </View>
           <View style={styles.aboutUs__textContainer}>
             <Text style={gStyles.h6}>График работы</Text>
