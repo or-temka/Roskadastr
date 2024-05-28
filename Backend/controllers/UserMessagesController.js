@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { validationResult } from 'express-validator'
 
-import { serverError, serverLog } from '../utils/serverLog.js'
+import { serverError } from '../utils/serverLog.js'
 import UserModel from '../models/User.js'
 
 export const sendMessage = async (req, res) => {
